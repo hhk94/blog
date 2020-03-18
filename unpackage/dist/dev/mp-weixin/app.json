@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/start/start",
+    "pages/login/login",
+    "pages/index/index",
+    "pages/home/home",
+    "pages/calendar/calendar",
+    "pages/news_list/news_list",
+    "pages/word_list/word_list",
+    "pages/word_list_index/word_list_index",
+    "pages/word_list_list/word_list_list",
+    "pages/word_list_detail/word_list_detail",
+    "pages/word_list_select/word_list_select",
+    "pages/word_list_setting/word_list_setting"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#ff6331",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "fontSize": "100px",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "static/detail-reexamination-serve-6.png",
+        "selectedIconPath": "static/detail-reexamination-serve-6.png"
+      },
+      {
+        "pagePath": "pages/news_list/news_list",
+        "text": "资讯",
+        "iconPath": "static/detail-reexamination-serve-6.png",
+        "selectedIconPath": "static/detail-reexamination-serve-6.png"
+      },
+      {
+        "pagePath": "pages/word_list_index/word_list_index",
+        "text": "单词本",
+        "iconPath": "static/detail-reexamination-serve-6.png",
+        "selectedIconPath": "static/detail-reexamination-serve-6.png"
+      },
+      {
+        "pagePath": "pages/calendar/calendar",
+        "text": "打卡",
+        "iconPath": "static/detail-reexamination-serve-6.png",
+        "selectedIconPath": "static/detail-reexamination-serve-6.png"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap10.json"
+}

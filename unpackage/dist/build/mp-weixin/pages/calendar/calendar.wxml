@@ -1,0 +1,1 @@
+<view class="calendar data-v-d6a94e98"><uni-calendar vue-id="4e2f4d80-1" selected="{{info.selected}}" showMonth="{{false}}" data-event-opts="{{[['^change',[['change']]],['^monthSwitch',[['monthSwitch']]]]}}" bind:change="__e" bind:monthSwitch="__e" class="data-v-d6a94e98" bind:__l="__l"></uni-calendar></view>

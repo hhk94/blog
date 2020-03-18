@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "单词本设置",
+  "usingComponents": {
+    "lb-picker": "/components/lb-picker/index"
+  }
+}

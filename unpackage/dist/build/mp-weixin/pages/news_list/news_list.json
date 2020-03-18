@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "uni-fab": "/components/uni-fab/uni-fab",
+    "zy-search": "/components/zy-search/zy-search"
+  }
+}
