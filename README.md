@@ -1,5 +1,5 @@
-# default
-## 个人博客 - vue -第一版
+# blog_vue
+## 基于vue开发 - blog第一版
 
 ## Project setup
 ```
@@ -14,11 +14,6 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
-```
-
-### Run your tests
-```
-npm run test
 ```
 
 ### Lints and fixes files

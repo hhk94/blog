@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "uni-appdemo",
-  "usingComponents": {
-    "home-swiper": "/pages/home/components/swiper",
-    "home-grid": "/pages/home/components/grid",
-    "yun-kf": "/components/yu-kefu/yu-kefu"
-  }
-}
