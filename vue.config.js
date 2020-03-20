@@ -37,7 +37,7 @@ module.exports = {
 		'style-resources-loader': {
 		  preProcessor: 'scss',
 		  patterns: [
-			  path.resolve(__dirname, './src/assets/styles/base.less')
+			  path.resolve(__dirname, './src/assets/styles/base.scss')
 		  ]
 		}
 	}

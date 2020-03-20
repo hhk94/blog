@@ -1,1 +1,22 @@
-$test-color:red
+$test-color:red;
+$common-container:1200px;//设计中心
+$theme-color:#202328;//主色
+$back-color:#f0f0f0	;//辅助灰色，底色
+.clear{
+	position: relative;
+}
+.clear::after{
+	position: absolute;
+	visibility: visible;
+	content: "";
+	display: block;
+	clear: both;
+}
+
+/* 文章场景相关 */
+$uni-color-title: #2C405A; // 文章标题颜色
+$uni-font-size-title:40upx;
+$uni-color-subtitle: #555555; // 二级标题颜色
+$uni-font-size-subtitle:36upx;
+$uni-color-paragraph: #3F536E; // 文章段落颜色
+$uni-font-size-paragraph:30upx;
