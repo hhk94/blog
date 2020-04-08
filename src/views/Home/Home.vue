@@ -3,22 +3,34 @@
 		<div class="bg"></div>
 		<div class="home">
 			<banner></banner>
-			<list></list>
+			<div class="body-center clear">
+				<ranking></ranking>
+				<hot-article></hot-article>
+				<list></list>
+				
+			</div>
+			
 		</div>
+		<login></login>
 	</div>
 	
 </template>
 
 <script>
 // @ is an alias to /src
-
+import Login from '@/components/Login.vue'
 import Banner from './components/banner.vue'
 import List from './components/list.vue'
+import Ranking from './components/ranking.vue'
+import HotArticle from './components/hot_article.vue'
 export default {
 	name: 'Home',
 	components: {
 		Banner,
-		List
+		List,
+		Ranking,
+		HotArticle,
+		Login
 	}
 }
 </script>
@@ -38,7 +50,10 @@ export default {
 	.home{
 		width: $common-container;
 		margin: 0 auto;
-		background-color: white;
+		// background-color: white;
+		.body-center{
+			margin-top: 20px;
+		}
 	}
 }
 

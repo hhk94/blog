@@ -7,6 +7,10 @@ import 'styles/resset.css'//自定义清零样式 - own clear css
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+
 Vue.config.productionTip = false
 
 new Vue({
