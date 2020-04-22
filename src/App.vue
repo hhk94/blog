@@ -6,7 +6,7 @@
 					<img src="@/assets/logo.png" alt="">
 				</div>
 				<div class="item-body clear">
-					<div class="item">
+					<div class="item" @click="show_login">
 						<img src="@/assets/img/login.png" alt="">
 					</div>
 					<div class="item">
@@ -15,6 +15,7 @@
 				</div>
 			</div>
 		</div>
+		<login v-show="this.show" @close="close_f"></login>
 		<!-- <div id="nav">
 			<router-link to="/">Home</router-link> |
 			<router-link to="/about">About</router-link>
@@ -22,8 +23,42 @@
 		<router-view/>
 	</div>
 </template>
-
+<script>
+import Login from '@/components/Login.vue'
+export default {
+	name: 'Home',
+	components: {
+		
+		Login
+	},
+	data(){
+		return{
+			show:false
+		}
+	},
+	methods:{
+		show_login(){
+			this.show = true
+		},
+		close_f(){
+			this.show = false
+		}
+	}
+}
+</script>
 <style lang="scss" scoped>
+::v-deep .markdown-body img{
+		max-width: 100%;
+		box-sizing: content-box;
+		background-color: transparent;
+		width: auto;
+		height: auto;
+		vertical-align: middle;
+		border: 0;
+		margin: 5px auto;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #d9d9d9;
+	}
 body{
 	background-color: $back-color!important;
 }

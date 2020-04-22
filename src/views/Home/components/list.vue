@@ -1,7 +1,10 @@
 <template>
 	<div class="home-list">
-		<div class="list-item">
-			<h1 class="title">这里是标题</h1>
+		<div class="list-item"
+		v-for="item of this.article_list"
+		:key="item.id"
+		>
+			<h1 class="title">{{item.article_title}}</h1>
 			<div class="tag-body clear">
 				<div class="tag-item clear">
 					<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
@@ -9,20 +12,32 @@
 				</div>
 				<div class="tag-item clear">
 					<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
-					<div class="word">In: <a href="">code</a> </div>
+					<div class="word">In: <a href="">{{item.belong_article_type.typename}}</a> </div>
 				</div>
 				<div class="tag-item clear">
 					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
 					<div class="word">Comments: <a href="">7</a> </div>
 				</div>
+				<div class="tag-item clear">
+					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
+					<div class="word">作者: {{item.belong_user.nick_name}} </div>
+				</div>
 			</div>
 			<div class="center">
-				a关于我们
+				<mavon-editor
+				v-model="item.article_content" 
+				:toolbarsFlag="false"
+				:boxShadow="false"
+				:defaultOpen="'preview'"
+				:subfield="false"
+				@change="change" 
+				class="edit"
+				/>
 			</div>
 			<div class="hidden">
 				<div class="hidden-bg"></div>
 				<div class="more clear">
-					<div>Read More</div>
+					<div @click="go_to_detail(item.id)">Read More</div>
 				</div>
 			</div>
 		</div>
@@ -48,7 +63,7 @@
 			<div class="hidden">
 				<div class="hidden-bg"></div>
 				<div class="more clear">
-					<div>Read More</div>
+					<div >Read More</div>
 				</div>
 			</div>
 		</div>
@@ -58,16 +73,66 @@
 <script>
 // @ is an alias to /src
 
-
+// 导入组件 及 组件样式
+import { mavonEditor } from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+import Article from '@/kun/api/article'
 export default {
 	name: 'List',
-	components: {
-		
+	//注册
+	components:{
+		mavonEditor
+	},
+	data(){
+		return {
+			article_list:[],
+			total:10,//总数
+			current_page:1,//当前页
+			per_page:3//一页显示数
+		}
+	},
+	mounted(){
+		this.article_type_list_get()
+	},
+	methods:{
+		// 所有操作都会被解析重新渲染 - 编辑区发生改变
+		change(value, render){
+			// render 为 markdown 解析后的结果[html]
+			console.log(render)
+			this.html = render;
+		},
+		async article_type_list_get(){
+			let data = {
+				size:this.per_page,
+				page:this.current_page
+			}
+			let result
+			try {
+				this.loading = true
+				result = await Article.article_list_get(data)
+			} catch (e) {
+				this.loading = false
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				this.loading = false
+				this.article_list = result.data.data.data
+				this.current_page = result.data.current_page
+				this.total = result.data.total
+				this.per_page =parseInt(result.data.data.per_page); 
+				console.log(this.article_list)
+			}
+		},
+		go_to_detail(id){
+			console.log(id)
+			this.$router.push({path:'/article-detail',query:{id:id}})
+		}
 	}
 }
 </script>
 
 <style scoped="scoped" lang="scss">
+
 .home-list{
 	margin-right: 20px;
 	float:right;
@@ -75,6 +140,7 @@ export default {
 	min-height: 100vh;
 	background-color: white;
 	.list-item{
+		overflow: hidden;
 		height: 400px;
 		position: relative;
 		padding: 30px 30px;
@@ -126,12 +192,13 @@ export default {
 		.center{
 			font-size: 16px;
 			width: 100%;
+			
 			// height: 200px;
 		}
 		.hidden{
 			position: absolute;
 			width: 100%;
-			
+			z-index: 2000;
 			// background-color: white;
 			left: 0;
 			bottom: 0;

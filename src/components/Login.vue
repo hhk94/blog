@@ -1,35 +1,40 @@
 <template>
-	<div class="home-login">
-		<h1 class="title">Sign in</h1>
-		<div class="center">
-			<div class="email">
-				<el-input placeholder="请输入您的邮箱" v-model="email" @input="email_change" >
-					<template slot="prepend">Http://</template>
-				</el-input>
-				<img 
-				src="@/assets/img/logo2-x.png" 
-				alt="" 
-				class="email-x" 
+	
+		<div :class="{'home-login':true,'animating1':this.judge=='Sign in','animating2':this.judge=='Sign up'}">
+			<div class="close" @click="close">X</div>
+			<h1 class="title">{{this.judge}}</h1>
+			<div class="center">
+				<div class="email">
+					<el-input placeholder="请输入您的邮箱" v-model="email" @input="email_change" >
+						<template slot="prepend">Http://</template>
+					</el-input>
+					<img 
+					src="@/assets/img/logo2-x.png" 
+					alt="" 
+					class="email-x" 
+					
+					v-show="this.show_emial_x"
+					@click="clear_input_email">
+				</div>
 				
-				v-show="this.show_emial_x"
-				@click="clear_input_email">
+				<div class="psd">
+					<el-input
+					placeholder="请输入密码"
+					v-model="psd"
+					show-password
+					>
+					</el-input>
+				</div>
+				<el-button type="primary" class='submit' v-if="this.judge=='Sign in'">登录</el-button>
+				<el-button type="primary" class='submit' v-else>注册</el-button>
 			</div>
-			
-			<div class="psd">
-				<el-input
-				placeholder="请输入密码"
-				v-model="psd"
-				show-password
-				>
-				</el-input>
+			<div class="change">
+				<span :class="{'active':this.judge=='Sign in'}" @click="change('Sign in')">立即登录</span>/
+				<span :class="{'active':this.judge=='Sign up'}" @click="change('Sign up')">立即注册</span>
 			</div>
-			<el-button type="primary" class='submit'>主要按钮</el-button>
+			<span class="forget" v-show="this.judge=='Sign in'">忘记密码</span>
 		</div>
-		<div class="change">
-			<span :class="{'active':this.judge=='in'}">立即登录</span>/
-			<span>立即注册</span>
-		</div>
-	</div>
+	
 </template>
 
 <script>
@@ -46,7 +51,7 @@ export default {
 			email:"",
 			show_emial_x:false,
 			psd:'',
-			judge:'in'
+			judge:'Sign in'
 		}
 	},
 	methods:{
@@ -60,17 +65,104 @@ export default {
 		clear_input_email(){
 			this.email = '';
 			this.show_emial_x = false
+		},
+		change(item){
+			this.judge = item
+		},
+		close(){
+			this.$emit('close')
 		}
 	}
 }
 </script>
 
 <style scoped="scoped" lang="scss">
+@keyframes hk_flip_in {
+  from {
+    -webkit-transform:   translate3d(0, 0, 0)
+      rotate3d(0, 1, 0, -360deg);
+    transform:  translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  40% {
+    -webkit-transform:  translate3d(0, 0, 150px)
+      rotate3d(0, 1, 0, -190deg);
+    transform:  translate3d(0, 0, 150px)
+      rotate3d(0, 1, 0, -190deg);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  50% {
+    -webkit-transform:   translate3d(0, 0, 150px)
+      rotate3d(0, 1, 0, -170deg);
+    transform:  translate3d(0, 0, 150px)
+      rotate3d(0, 1, 0, -170deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0)
+      rotate3d(0, 1, 0, 0deg);
+    transform:  translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+}	
+@keyframes hk_flip_out {
+  from {
+    -webkit-transform: translate3d(0, 0, 0)
+      rotate3d(0, 1, 0, 0deg);
+    transform:  translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+
+  50% {
+    -webkit-transform:   translate3d(0, 0, 150px)
+      rotate3d(0, 1, 0, -170deg);
+    transform:  translate3d(0, 0, 150px)
+      rotate3d(0, 1, 0, -170deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  80% {
+    -webkit-transform:  translate3d(0, 0, 150px)
+      rotate3d(0, 1, 0, -190deg);
+    transform:  translate3d(0, 0, 150px)
+      rotate3d(0, 1, 0, -190deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  to {
+    -webkit-transform:   translate3d(0, 0, 0)
+      rotate3d(0, 1, 0, -360deg);
+    transform:  translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+}
+	
+.animating1{
+	animation: hk_flip_in 0.5s 1 ;
+}
+.animating2{
+	animation: hk_flip_out 0.5s 1 ;
+}
 .home-login{
 	position: fixed;
 	left: 50%;
 	top: 50%;
-	transform: translate3d(-50%,-50%,0);
+	margin-top: -200px;
+	margin-left: -200px;
 	width: 400px;
 	height: 400px;
 	background-color: white;
@@ -78,13 +170,22 @@ export default {
 	box-shadow: 0 0 20px 0 $back-color;
 	border-radius: $uni-border-radius-lg;
 	overflow: hidden;
+	.close{
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		font-size: $uni-font-size-title;
+		cursor: pointer;
+		color: $theme-color;
+	}
 	.title{
 		text-align: center;
 		color: $theme-color;
 		font-size: $uni-font-size-title;
-		margin-top: 30px;
+		margin-top: 60px;
 	}
 	.center{
+		// margin-top: 10px;
 		padding: 40px;
 		.email{
 			position: relative;
@@ -108,7 +209,7 @@ export default {
 	.change{
 		position: absolute;
 		right:40px;
-		bottom: 124px;
+		bottom: 80px;
 		span{
 			color: $uni-color-primary;
 			cursor: pointer;
@@ -118,6 +219,12 @@ export default {
 			cursor:auto ;
 		}
 	}
-	
+	.forget{
+		position: absolute;
+		left:40px;
+		bottom: 80px;
+		color: $uni-color-primary;
+		cursor: pointer;
+	}
 }
 </style>

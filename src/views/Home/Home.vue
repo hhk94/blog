@@ -11,14 +11,12 @@
 			</div>
 			
 		</div>
-		<login></login>
 	</div>
 	
 </template>
 
 <script>
 // @ is an alias to /src
-import Login from '@/components/Login.vue'
 import Banner from './components/banner.vue'
 import List from './components/list.vue'
 import Ranking from './components/ranking.vue'
@@ -30,7 +28,6 @@ export default {
 		List,
 		Ranking,
 		HotArticle,
-		Login
 	}
 }
 </script>
