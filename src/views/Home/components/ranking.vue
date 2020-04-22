@@ -1,25 +1,13 @@
 <template>
 	<div class="home-rank">
 		<h1 class="title">灌水排行榜</h1>
-		<div class="item">
-			<div class="num">1</div>
-			<div class="name">何坤灌水灌水何坤灌水灌水</div>
-			<div class="total">665</div>
-		</div>
-		<div class="item">
-			<div class="num">1</div>
-			<div class="name">何坤灌水灌水何坤灌水灌水</div>
-			<div class="total">665</div>
-		</div>
-		<div class="item">
-			<div class="num">1</div>
-			<div class="name">何坤灌水灌水何坤灌水灌水</div>
-			<div class="total">665</div>
-		</div>
-		<div class="item">
-			<div class="num">10</div>
-			<div class="name">何坤灌水灌水</div>
-			<div class="total">665</div>
+		<div 
+		:key="item.id"
+		v-for="(item,index) of this.list"
+		class="item">
+			<div class="num">{{index}}</div>
+			<div class="name">{{item.nick_name}}</div>
+			<div class="total">{{item.has_comments_count}}</div>
 		</div>
 	</div>
 </template>
@@ -27,11 +15,35 @@
 <script>
 // @ is an alias to /src
 
-
+import Admin from '@/kun/api/admin'
 export default {
 	name: 'Ranking',
 	components: {
 		
+	},
+	data(){
+		return {
+			list:[]
+		}
+	},
+	mounted() {
+		this.user_list_get_by_count()
+	},
+	methods:{
+		async user_list_get_by_count(){
+			let result
+			try {
+				this.loading = true
+				result = await Admin.user_list_get_by_count()
+			} catch (e) {
+				this.loading = false
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				this.list = result.data.data 
+				console.log(this.list )
+			}
+		},
 	}
 }
 </script>

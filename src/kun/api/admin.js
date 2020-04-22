@@ -17,5 +17,18 @@ export default class Admin {
 		})
 		return groups
 	}
-	
+	/**
+	 * 新增文章类别
+	 * @param {string} limit 默认10
+	 * @method get
+	 */
+	static async user_list_get_by_count(params) {
+		const groups =  await _axios({
+			method: 'get',
+			url: 'cms/user_list_get_by_count',
+			params,
+			handleError: true,
+		})
+		return groups
+	}
 }

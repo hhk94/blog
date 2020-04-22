@@ -134,7 +134,38 @@ export default class Cms {
 		})
 		return groups
 	}
+	/**
+	 * 文章评论新增
+	 * @param {int} article_id 文章id
+	 * @param {int} tid 评论上级id
+	 * @param {string} comment_content 评论内容
+	 * @param {int} user_id 作者id
+	 * method post
+	 */
+	static async article_comments_add(data) {
+		const groups =  await _axios({
+			method: 'post',
+			url: 'cms/article_comments_add',
+			data,
+			handleError: true,
+		})
+		return groups
+	}
 	
+	/**
+	 * 文章列表按评论数排序
+	 * @param {int} limit 默认10
+	 * method get
+	 */
+	static async article_list_get_by_count(params) {
+		const groups =  await _axios({
+			method: 'get',
+			url: 'cms/article_list_get_by_count',
+			params,
+			handleError: true,
+		})
+		return groups
+	}
 	// static async createOneGroup(name, info, permission_ids) {
 	//   const res = await post('cms/admin/group', {
 	//     name,

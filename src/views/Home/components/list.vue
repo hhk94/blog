@@ -8,7 +8,7 @@
 			<div class="tag-body clear">
 				<div class="tag-item clear">
 					<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
-					<div class="word">Post:2019-06-09</div>
+					<div class="word">Post:{{item.update_time}}</div>
 				</div>
 				<div class="tag-item clear">
 					<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
@@ -16,7 +16,7 @@
 				</div>
 				<div class="tag-item clear">
 					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
-					<div class="word">Comments: <a href="">7</a> </div>
+					<div class="word">Comments: <a href="">{{item.has_comments_count}}</a> </div>
 				</div>
 				<div class="tag-item clear">
 					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
@@ -98,7 +98,7 @@ export default {
 		// 所有操作都会被解析重新渲染 - 编辑区发生改变
 		change(value, render){
 			// render 为 markdown 解析后的结果[html]
-			console.log(render)
+			// console.log(render)
 			this.html = render;
 		},
 		async article_type_list_get(){
@@ -120,7 +120,7 @@ export default {
 				this.current_page = result.data.current_page
 				this.total = result.data.total
 				this.per_page =parseInt(result.data.data.per_page); 
-				console.log(this.article_list)
+				// console.log(this.article_list)
 			}
 		},
 		go_to_detail(id){

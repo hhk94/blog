@@ -1,37 +1,56 @@
 <template>
 	<div class="home-article">
 		<h1 class="title">热门文章</h1>
-		<div class="item">
-			<div class="num">1</div>
-			<div class="name">何坤灌水灌水何坤灌水灌水何坤灌水灌水何坤灌水灌水何坤灌水灌水何坤灌水灌水何坤灌水灌水何坤灌水灌水</div>
+		<div 
+		class="item"
+		v-for="(item,index) of this.list"
+		:key="item.id"
+		@click="go_to_detail(item.id)"
+		>
+			<div class="num">{{index}}</div>
+			<div class="name">{{item.article_title}}</div>
 			
 		</div>
-		<div class="item">
-			<div class="num">1</div>
-			<div class="name">何坤灌水灌水何坤灌水灌水</div>
-			
-		</div>
-		<div class="item">
-			<div class="num">1</div>
-			<div class="name">何坤灌水灌水何坤灌水灌水</div>
-			
-		</div>
-		<div class="item">
-			<div class="num">10</div>
-			<div class="name">何坤灌水灌水</div>
-			
-		</div>
+		
+		
 	</div>
 </template>
 
 <script>
 // @ is an alias to /src
 
-
+import Article from '@/kun/api/article'
 export default {
 	name: 'HotArticle',
 	components: {
 		
+	},
+	data(){
+		return {
+			list:[]
+		}
+	},
+	mounted() {
+		this.article_list_get_by_count()
+	},
+	methods:{
+		async article_list_get_by_count(){
+			let result
+			try {
+				this.loading = true
+				result = await Article.article_list_get_by_count()
+			} catch (e) {
+				this.loading = false
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				this.list = result.data.data 
+				console.log(this.list )
+			}
+		},
+		go_to_detail(id){
+			this.$router.push({path:'/article-detail',query:{id:id}})
+		}
 	}
 }
 </script>
@@ -65,7 +84,7 @@ export default {
 		}
 	}
 	.item{
-		
+		cursor: pointer;
 		justify-content: space-between;
 		padding: 10px 10px 10px 0;
 		height: 40px;

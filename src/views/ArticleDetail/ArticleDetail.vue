@@ -20,7 +20,7 @@
 							</div>
 							<div class="tag-item clear">
 								<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
-								<div class="word">Comments: <a href="">7</a> </div>
+								<div class="word">Comments: <a href="">{{this.total}}</a> </div>
 							</div>
 							<div class="tag-item clear">
 								<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
@@ -42,47 +42,75 @@
 					<div class="comment">
 						<h1 class="t1">评论列表 <span class="add-comment" @click="add_comment(0)">撰写评论</span></h1>
 						<div class="comment-list">
-							<div class="comment-item">
+							<div class="no_comments" v-show="this.total==0">暂无评论,快来抢占沙发吧~</div>
+							<!-- <img src="@/assets/img/comments.gif" alt=""> -->
+							<div 
+							class="comment-item"
+							v-for="item of this.comments"
+							:key="item.id"
+							>
 								<div class="person-logo">
 									<img src="" alt="">
 								</div>
 								<div class="word">
-									<h1 class="name">616761951@qq.com</h1>
-									<h2 class="time">2020-04-07</h2>
+									<h1 class="name">{{item.belong_user.nick_name}}</h1>
+									<h2 class="time">{{item.update_time}}</h2>
 									<div class="replay">
-										<span class="detail">我说了啥</span>
+										<span class="detail">{{item.comment_content}}</span>
+										<div class="old_user" 
+										v-for="item2 of item.father_list"
+										:key="item2.id"
+										>
+											<span class="user">//@{{item2.belong_user.nick_name}}:</span><span class="detail">{{item2.comment_content}}</span>
+										</div>
+										
 									</div>
-									<div class="answer">回复</div>
+									<div class="answer" @click="add_comment(item.id)">回复</div>
 								</div>
 							</div>
-							<div class="comment-item">
-								<div class="person-logo">
-									<img src="" alt="">
-								</div>
-								<div class="word">
-									<h1 class="name">331@qq.com</h1>
-									<h2 class="time">2020-04-07</h2>
-									<div class="replay">
-										<span class="detail">你是不是憨批</span>
-										<span class="user">//@616761951@qq:</span><span class="detail">我说了啥</span>
-									</div>
-									<div class="answer">回复</div>
-								</div>
-							</div>
+							
 							
 							
 						</div>
 					</div>
+					<el-pagination
+					@current-change="handleCurrentChange"
+					class="pag"
+					background
+					layout="prev, pager, next"
+					:current-page="this.current_page"
+					:page-size="this.per_page"
+					:total="this.total">
+					</el-pagination>
 				</div>
 				
 			</div>
 			
 		</div>
-		
+		<el-dialog title="评论" 
+		:visible.sync="dialogFormVisible" 
+		center top="45vh" :modal="false" 
+		:modal-append-to-body="false"
+		width="500px">
+		<el-form >
+			<el-input
+			type="textarea"
+			:rows="2"
+			placeholder="请输入内容"
+			v-model="textarea">
+			</el-input>
+		</el-form>
+		<div slot="footer" class="dialog-footer">
+		<el-button @click="dialogFormVisible = false">取 消</el-button>
+		<el-button type="primary" @click="comment_push()">确 定</el-button>
+		</div>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
+import { Storage } from '@/kun/utils/storage'
+var storage = new Storage();
 // 导入组件 及 组件样式
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
@@ -99,35 +127,50 @@ export default {
 	},
 	data(){
 		return {
-			article_id:'a',
-			article_content:'a',
-			article_title:'a',
-			belong_article_type:{
+			article_id:'a',//文章id
+			article_content:'a',//文章内容
+			article_title:'a',//文章标题
+			belong_article_type:{//文章分类
 				typename:'a',
 				id:'a'
 			},
-			belong_user:{
+			belong_user:{//文章作者
 				nick_name:'a',
 				id:'a'
 			},
-			update_time:'',
-			coments:[]
+			update_time:'',//修改时间
+			comments:[],//评论列表
+			dialogFormVisible:false,//评论表单
+			textarea:'',//评论内容
+			tid:'',//回复上级id
+			current_page:1,
+			per_page:5,
+			total:0
+		}
+	},
+	watch: {
+		'$route' () {
+			console.log('1')
+			this.init()
 		}
 	},
 	mounted() {
-		this.article_id = this.$route.query.id
-		console.log(this.$route.query.id)
-		this.get_article_detail()
-		this.get_article_comments()
+		this.init()
 	},
 	methods:{
+		init(){
+			this.article_id = this.$route.query.id
+			console.log(this.article_id)
+			this.get_article_detail()
+			this.get_article_comments()
+		},
 		// 所有操作都会被解析重新渲染 - 编辑区发生改变
 		change(value, render){
 			// render 为 markdown 解析后的结果[html]
-			console.log(render)
+			// console.log(render)
 			this.html = render;
 		},
-		async get_article_detail(){
+		async get_article_detail(){//获取文章详情
 			let params = {
 				id:this.article_id 
 			}
@@ -147,16 +190,55 @@ export default {
 				this.update_time = result.data.data.update_time
 			}
 		},
-		add_comment(tid){
+		add_comment(tid){//点击回复评论
+			let data = storage.get_storage('USER_INFO')
+			console.log(data)
+			if(data){
+				this.user_id = data.app.id
+				this.tid = tid
+				this.dialogFormVisible = true
+			}else{
+				let that = this
+				this.$notify.error({
+					title: '错误',
+					message: '请先登录再评论',
+					onClose:function(){
+						that.$store.dispatch('Home/set_login_show',true)
+					}
+				});
+			}
+		},
+		async comment_push(){//提交回复评论
+			if(this.textarea.length==0){
+				this.$notify.error({
+					title: '错误',
+					message: '请填写回复内容'
+				});
+				return;
+			}
 			let data = {
 				article_id:this.article_id,//文章id
-				tid:tid//回复上级id
+				tid:this.tid,//回复上级id
+				comment_content:this.textarea,
+				user_id:this.user_id
 			}
-			console.log(data)
+			let result
+			try {
+				result = await Article.article_comments_add(data)
+			} catch (e) {
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				this.dialogFormVisible = false
+				this.get_article_comments()
+			}
 		},
+		//获取文章评论
 		async get_article_comments(){
 			let params = {
-				article_id:this.article_id 
+				article_id:this.article_id,
+				size:this.per_page,
+				page:this.current_page
 			}
 			let result
 			try {
@@ -166,9 +248,16 @@ export default {
 			}
 			if(result.data.state==window.g.SUCCESS_STATE){
 				console.log(result)
-				this.coments = result.data.data
+				this.comments = result.data.data.data
+				this.current_page = result.data.current_page
+				this.total = result.data.total
+				this.per_page =parseInt(result.data.data.per_page); 
 			}
-		}
+		},
+		handleCurrentChange(val){//页码改变
+			this.current_page = val
+			this.get_article_comments()
+		},
 	}
 }
 </script>
@@ -275,6 +364,24 @@ export default {
 	}
 	.comment-list{
 		margin: 20px;
+		.no_comments{
+			padding-top: 100px;
+			position: relative;
+			text-align: center;
+			color: #bfbfbf;
+			font-size: $uni-font-size-paragraph;
+			&::after{
+				position: absolute;
+				top: 0;
+				left: 50%;
+				transform: translateX(-50%);
+				content: '';
+				display: block;
+				width: 100px;
+				height: 100px;
+				background: url(../../assets/img/comments.gif) no-repeat center center/contain;
+			}
+		}
 		.comment-item{
 			padding: 20px;
 			overflow: hidden;
@@ -305,9 +412,15 @@ export default {
 					margin-top: 10px;
 					font-size: $hk-mid;
 					color: $uni-color-paragraph;
+					span{
+						line-height: 20px;
+					}
 					.detail{
 						font-size: $hk-mid;
 						color: $uni-color-paragraph;
+					}
+					.old_user{
+						display: inline;
 					}
 					.user{
 						color:$uni-color-warning;
@@ -337,5 +450,9 @@ export default {
 			}
 		}
 	}
+}
+::v-deep .pag{
+	margin: 20px auto;
+	width: fit-content;
 }
 </style>

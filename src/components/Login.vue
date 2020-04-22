@@ -25,8 +25,8 @@
 					>
 					</el-input>
 				</div>
-				<el-button type="primary" class='submit' v-if="this.judge=='Sign in'">登录</el-button>
-				<el-button type="primary" class='submit' v-else>注册</el-button>
+				<el-button type="primary" class='submit' v-if="this.judge=='Sign in'" @click="login_submit()">登录</el-button>
+				<el-button type="primary" class='submit' v-else @click="sign_submit()">注册</el-button>
 			</div>
 			<div class="change">
 				<span :class="{'active':this.judge=='Sign in'}" @click="change('Sign in')">立即登录</span>/
@@ -40,7 +40,7 @@
 <script>
 // @ is an alias to /src
 
-
+import Admin from '@/kun/api/admin'
 export default {
 	name: 'Login',
 	components: {
@@ -48,9 +48,9 @@ export default {
 	},
 	data(){
 		return{
-			email:"",
+			email:"hk",
 			show_emial_x:false,
-			psd:'',
+			psd:'20120942',
 			judge:'Sign in'
 		}
 	},
@@ -70,8 +70,36 @@ export default {
 			this.judge = item
 		},
 		close(){
-			this.$emit('close')
-		}
+			this.$store.dispatch('Home/set_login_show',false)
+			
+		},
+		async login_submit(){
+			let data = {
+				appid:this.email,
+				appsecret:this.psd
+			}
+			let result
+			try {
+				this.loading = true
+				result = await Admin.user_login(data)
+			} catch (e) {
+				this.loading = false
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				this.$store.dispatch('Home/set_token',result.data.data)
+				this.$store.dispatch('Home/set_login_show',false)
+				this.$message({
+					type: 'success',
+					message: '登录成功!'
+				});
+			}else{
+				this.$notify({
+				title: '提示',
+				message: result.data.msg
+				});
+			}
+		},
 	}
 }
 </script>
