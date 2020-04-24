@@ -4,8 +4,9 @@ import _axios from '@/kun/plugins/axios'
 
 export default class Admin {
 	/**
-	 * 新增文章类别
-	 * @param {string} typename 分类名
+	 * 用户登录
+	 * @param {string} appid
+	 * @param {string} appsecret
 	 * @method post
 	 */
 	static async user_login(data) {
@@ -18,7 +19,7 @@ export default class Admin {
 		return groups
 	}
 	/**
-	 * 新增文章类别
+	 * 用户回复数排序
 	 * @param {string} limit 默认10
 	 * @method get
 	 */
@@ -31,4 +32,6 @@ export default class Admin {
 		})
 		return groups
 	}
+	
+	
 }
