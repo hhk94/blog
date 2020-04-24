@@ -41,7 +41,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="list-item">
+		<!-- <div class="list-item">
 			<h1 class="title">这里是标题</h1>
 			<div class="tag-body clear">
 				<div class="tag-item clear">
@@ -66,7 +66,16 @@
 					<div >Read More</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
+		<el-pagination
+		@current-change="handleCurrentChange"
+		class="pag"
+		background
+		layout="prev, pager, next"
+		:current-page="this.current_page"
+		:page-size="this.per_page"
+		:total="this.total">
+		</el-pagination>
 	</div>
 </template>
 
@@ -92,16 +101,20 @@ export default {
 		}
 	},
 	mounted(){
-		this.article_type_list_get()
+		this.article_list_get()
 	},
 	methods:{
+		handleCurrentChange(val){//页码改变
+			this.current_page = val
+			this.article_list_get()
+		},
 		// 所有操作都会被解析重新渲染 - 编辑区发生改变
 		change(value, render){
 			// render 为 markdown 解析后的结果[html]
 			// console.log(render)
 			this.html = render;
 		},
-		async article_type_list_get(){
+		async article_list_get(){
 			let data = {
 				size:this.per_page,
 				page:this.current_page
@@ -132,10 +145,14 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-
+.pag{
+	margin: 20px auto;
+	width: fit-content;
+}
 .home-list{
-	margin-right: 20px;
-	float:right;
+	overflow: hidden;
+	// margin-right: 20px;
+	// float:right;
 	width: 760px;
 	min-height: 100vh;
 	background-color: white;

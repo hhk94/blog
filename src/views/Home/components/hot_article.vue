@@ -1,5 +1,5 @@
 <template>
-	<div class="home-article">
+	<div :class="{'home-article':true,'fixed':this.isFixed}" >
 		<h1 class="title">热门文章</h1>
 		<div 
 		class="item"
@@ -24,6 +24,9 @@ export default {
 	name: 'HotArticle',
 	components: {
 		
+	},
+	props:{
+		isFixed:Boolean
 	},
 	data(){
 		return {
@@ -57,11 +60,14 @@ export default {
 
 <style scoped="scoped" lang="scss">
 .home-article{
-	float: right;
+	// float: right;
 	width: 200px;
-	height: 100vh;
+	// height: 100vh;
 	background-color: white;
-	
+	&.fixed{
+		position: fixed;
+		top: 0;
+	}
 	.title{
 		font-size: $uni-font-size-paragraph;
 		letter-spacing: 1px;

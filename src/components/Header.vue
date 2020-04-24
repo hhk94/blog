@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
 		<div class="container clear">
-			<div class="logo">
+			<div class="logo" @click="home()">
 				<img src="@/assets/img/kun3.png" alt="">
 			</div>
 			<div class="item-body clear">
@@ -10,8 +10,8 @@
 				@click="show_login">
 					<img src="@/assets/img/login.png" alt="">
 				</div>
-				<div class="item" v-show="this.$store.getters.token">
-					<div class="circle"></div>
+				<div class="item" v-if="this.$store.getters.token">
+					<div class="circle"><img :src="this.$store.getters.token.app.avatar_img_url" alt=""></div>
 				</div>
 			</div>
 		</div>
@@ -38,6 +38,9 @@ export default {
 		},
 		close_f(){
 			this.$store.dispatch('Home/set_login_show',false)
+		},
+		home(){
+			this.$router.push('/')
 		}
 	}
 }

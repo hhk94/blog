@@ -1,5 +1,5 @@
 <template>
-	<div class="home-rank">
+	<div :class="{'home-rank':true,'fixed':this.isFixed}">
 		<h1 class="title">灌水排行榜</h1>
 		<div 
 		:key="item.id"
@@ -21,6 +21,9 @@ export default {
 	components: {
 		
 	},
+	props:{
+		isFixed:Boolean
+	},
 	data(){
 		return {
 			list:[]
@@ -29,6 +32,7 @@ export default {
 	mounted() {
 		this.user_list_get_by_count()
 	},
+	
 	methods:{
 		async user_list_get_by_count(){
 			let result
@@ -44,17 +48,22 @@ export default {
 				console.log(this.list )
 			}
 		},
+	
 	}
 }
 </script>
 
 <style scoped="scoped" lang="scss">
 .home-rank{
-	float: left;
+	// float: left;
 	width: 200px;
-	height: 100vh;
+	// height: 100vh;
 	background-color: white;
-	margin-right: 20px;
+	&.fixed{
+		position: fixed;
+		top: 0;
+	}
+	// margin-right: 20px;
 	.title{
 		font-size: $uni-font-size-subtitle;
 		text-align: center;
