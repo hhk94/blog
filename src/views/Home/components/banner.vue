@@ -1,24 +1,25 @@
 <template>
 	<div class="body">
-		<div class="swiper-center" >
-			<swiper :options="swiperOption" ref="mySwiper">
+		<div class="swiper-center" v-if="this.list.length!=0" >
+			<swiper :options="swiperOption" ref="mySwiper" >
 				
-				<!-- <swiper-slide 
-				:data_index="item.jump"
-				v-for="(item,index) of bannerList"
-				:key="index"
+				<swiper-slide 
+				:data_index="item.jump_url"
+				v-for="(item) of list"
+				:key="item.id"
 				>
 					<a >
-						<img :src="item.img" alt="">
+						<img :src="item.banner_img_url" alt="">
 					</a>
 					
-				</swiper-slide> -->
-				<swiper-slide>
+				</swiper-slide>
+				
+				<!-- <swiper-slide>
 					<a >
 						<img src="@/assets/img/1.jpg" alt="">
 					</a>
 					
-				</swiper-slide>
+				</swiper-slide> -->
 				
 				<div class="swiper-pagination" slot="pagination"></div>
 			</swiper>
@@ -29,6 +30,7 @@
 <script>
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import Banner from '@/kun/api/banner'
 export default {
 	name: 'Banner',
 	components: {
@@ -49,6 +51,7 @@ export default {
 					disableOnInteraction: false
 				},
 			},
+			list:[]
 	
 		}
 	},
@@ -61,17 +64,42 @@ export default {
 		bannerList:Array
 	},
 	mounted() {
-		let _this = this;
-		this.swiper.on('tap', function () {
-			// _this.goToDetail(this.clickedSlide.getAttribute('data_index'));//调用你自定义的方法
-			if(this.clickedSlide.getAttribute('data_index')=='zx'){
-				window.open('https://tb.53kf.com/code/stat/0e0881fb4bf9cb323abd9dff7089b4290/1')
-			}else{
-				_this.$router.push({path:'/spacial/spacial-'+this.clickedSlide.getAttribute('data_index')}).catch(err => {err})
+		this.init()
+		
+	},
+	methods:{
+		async init(){
+			await this.banner_list_get()
+			let _this = this;
+			this.swiper.on('tap', function () {
+				console.log('a')
+				// _this.goToDetail(this.clickedSlide.getAttribute('data_index'));//调用你自定义的方法
+				if(this.clickedSlide.getAttribute('data_index')=='zx'){
+					window.open('https://tb.53kf.com/code/stat/0e0881fb4bf9cb323abd9dff7089b4290/1')
+				}else{
+					_this.$router.push({path:'/spacial/spacial-'+this.clickedSlide.getAttribute('data_index')}).catch(err => {err})
+					
+				}
 				
+			})
+		},
+		async banner_list_get(){
+			let params = {
+				banner_type_id:1
 			}
-			
-		})
+			let result
+			try {
+				this.loading = true
+				result = await Banner.banner_list_get(params)
+			} catch (e) {
+				this.loading = false
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				this.list = result.data.data 
+				console.log(this.list )
+			}
+		}
 	}
 }
 </script>
