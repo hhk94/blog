@@ -1,6 +1,6 @@
 # blog_vue
 ## 基于vue开发 - blog第一版
-
+test
 ## Project setup
 ```
 npm install
