@@ -71,6 +71,13 @@ export default {
 		},
 		home(){
 			this.$router.push('/')
+		},
+		login_out(){
+			this.$store.dispatch('Config/loginOut')
+			this.$router.push('/')
+		},
+		change_user(){
+			this.$router.push('/person-change')
 		}
 	}
 }
