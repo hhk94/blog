@@ -1,29 +1,30 @@
 <template>
 	<div :class="{'home-article':true,'fixed':this.isFixed}" >
-		<h1 class="title">热门文章</h1>
-		<div 
-		class="item"
-		v-for="(item,index) of this.list"
-		:key="item.id"
-		@click="go_to_detail(item.id)"
-		>
-			<div class="num">{{index}}</div>
-			<div class="name">{{item.article_title}}</div>
-			
+		<div class="top">
+			<h1 class="title">热门文章</h1>
+			<div 
+			class="item"
+			v-for="(item,index) of this.list"
+			:key="item.id"
+			@click="go_to_detail(item.id)"
+			>
+				<div class="num">{{index}}</div>
+				<div class="name">{{item.article_title}}</div>
+				
+			</div>
 		</div>
-		
-		
+		<introduction></introduction>
 	</div>
 </template>
 
 <script>
 // @ is an alias to /src
-
+import introduction from '@/components/Introduction.vue'
 import Article from '@/kun/api/article'
 export default {
 	name: 'HotArticle',
 	components: {
-		
+		introduction
 	},
 	props:{
 		isFixed:Boolean
@@ -63,10 +64,13 @@ export default {
 	// float: right;
 	width: 200px;
 	// height: 100vh;
-	background-color: white;
+	
 	&.fixed{
 		position: fixed;
 		top: 0;
+	}
+	.top{
+		background-color: white;
 	}
 	.title{
 		font-size: $uni-font-size-paragraph;

@@ -13,7 +13,10 @@
 						<list></list>
 					</el-main>
 					<el-aside width="200px" >
-						<hot-article :isFixed="isFixed"></hot-article>
+						<div >
+							<hot-article :isFixed="isFixed"></hot-article>
+						</div>
+						
 					</el-aside>
 				</el-container>
 			</div>
@@ -30,6 +33,7 @@ import List from './components/list.vue'
 import Ranking from './components/ranking.vue'
 import HotArticle from './components/hot_article.vue'
 import Utils from '@/kun/utils/util.js'
+
 export default {
 	name: 'Home',
 	components: {

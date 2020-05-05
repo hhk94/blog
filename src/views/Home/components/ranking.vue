@@ -1,25 +1,27 @@
 <template>
 	<div :class="{'home-rank':true,'fixed':this.isFixed}">
-		<h1 class="title">灌水排行榜</h1>
-		<div 
-		:key="item.id"
-		v-for="(item,index) of this.list"
-		class="item">
-			<div class="num">{{index}}</div>
-			<div class="name">{{item.nick_name}}</div>
-			<div class="total">{{item.has_comments_count}}</div>
+		<div>
+			<h1 class="title">灌水排行榜</h1>
+			<div 
+			:key="item.id"
+			v-for="(item,index) of this.list"
+			class="item">
+				<div class="num">{{index}}</div>
+				<div class="name">{{item.nick_name}}</div>
+				<div class="total">{{item.has_comments_count}}</div>
+			</div>
 		</div>
+		
+		
 	</div>
 </template>
 
 <script>
 // @ is an alias to /src
-
 import Admin from '@/kun/api/admin'
 export default {
 	name: 'Ranking',
 	components: {
-		
 	},
 	props:{
 		isFixed:Boolean
