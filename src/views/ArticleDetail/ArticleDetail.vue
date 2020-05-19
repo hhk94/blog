@@ -1,6 +1,21 @@
 <template>
 	<div class="home">
-		
+		<el-backtop :bottom="100">
+		<div
+		style="{
+		height: 100%;
+		width: 100%;
+		background-color: #f2f5f6;
+		box-shadow: 0 0 6px rgba(0,0,0, .12);
+		text-align: center;
+		line-height: 40px;
+		border-radius: 10px;
+		color: #1989fa;
+		}"
+		>
+		UP
+		</div>
+		</el-backtop>
 		<div class="body-center clear" ref="left">
 			
 			
@@ -282,6 +297,12 @@ export default {
 			if(result.data.state==window.g.SUCCESS_STATE){
 				this.dialogFormVisible = false
 				this.get_article_comments()
+				this.textarea = ''
+			}else{
+				this.$notify.error({
+					title: '错误',
+					message: result.data.msg
+				});
 			}
 		},
 		//获取文章评论
