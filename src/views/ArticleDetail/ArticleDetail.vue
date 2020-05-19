@@ -13,7 +13,7 @@
 						<!-- 文章主体 -->
 						<div class="home-list">
 							<div class="sec-header">
-								<el-breadcrumb separator-class="el-icon-arrow-right">
+								<el-breadcrumb separator-class="el-icon-arrow-right" ref="test1">
 								<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
 								<el-breadcrumb-item>{{this.article_title}}</el-breadcrumb-item>
 								</el-breadcrumb>
@@ -41,7 +41,7 @@
 								<!-- :toolbarsFlag="false" -->
 								<div class="center" >
 									<mavon-editor
-									:navigation="true"
+									
 									v-model="article_content" 
 									:boxShadow="false"
 									:defaultOpen="'preview'"
@@ -166,7 +166,7 @@ export default {
 			per_page:5,
 			total:0,
 			toolbars: {
-			navigation: true, // 导航目录
+			// navigation: true, // 导航目录
 			},
 			isFixed:false,
 			wait: 100, // 2000ms之内不能重复发起请求
@@ -175,7 +175,6 @@ export default {
 	},
 	watch: {
 		'$route' () {
-			// console.log('1')
 			this.init()
 		}
 	},
@@ -183,6 +182,7 @@ export default {
 		this.init()
 		this.throttleScroll = Utils.throttle(this.handleScroll, this.wait)
 		window.addEventListener("scroll",this.throttleScroll);
+		
 	},
 	destroyed: function () {
 		window.removeEventListener('scroll', this.throttleScroll);   //  离开页面清除（移除）滚轮滚动事件
@@ -205,8 +205,13 @@ export default {
 			// console.log('1')
 		},
 		init(){
+			let timer = setInterval(() => {
+				document.documentElement.scrollTop -=10
+				if (document.documentElement.scrollTop === 0) {
+					clearInterval(timer)
+				}
+			}, 20);
 			this.article_id = this.$route.query.id
-			// console.log(this.article_id)
 			this.get_article_detail()
 			this.get_article_comments()
 		},

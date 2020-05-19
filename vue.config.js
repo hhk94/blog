@@ -40,5 +40,13 @@ module.exports = {
 			  path.resolve(__dirname, './src/assets/styles/base.scss')
 		  ]
 		}
-	}
+	},
+	chainWebpack: config => {
+	    config
+	      .plugin('html')
+	      .tap(args => {
+	        args[0].title= 'welcome to Kun'
+	        return args
+	      })
+	  }
 }

@@ -65,4 +65,22 @@ export default class Admin {
 		})
 		return groups
 	}
+	
+	/*
+	*	@param：blog用户新增 - 默认为普通用户
+		@method:post
+		@url /api/v2/cms/add_user
+		* @param {varchar} appid 账号
+		* @param {varchar} appsecret 密码
+	*/
+	static async add_user(data) {
+		const groups =  await _axios({
+			method: 'post',
+			url: 'cms/add_user',				
+			data,
+			handleError: true,
+		})
+		return groups
+	}
+	
 }

@@ -48,9 +48,9 @@ export default {
 	},
 	data(){
 		return{
-			email:"hk",
+			email:"",
 			show_emial_x:false,
-			psd:'20120942',
+			psd:'',
 			judge:'Sign in'
 		}
 	},
@@ -61,6 +61,10 @@ export default {
 			}else{
 				this.show_emial_x = false
 			}
+		},
+		clear(){
+			this.email = '';
+			this.psd = '';
 		},
 		clear_input_email(){
 			this.email = '';
@@ -74,6 +78,7 @@ export default {
 			
 		},
 		async login_submit(){
+			
 			let data = {
 				appid:this.email,
 				appsecret:this.psd
@@ -87,12 +92,13 @@ export default {
 				console.log(e)
 			}
 			if(result.data.state==window.g.SUCCESS_STATE){
-				this.$store.dispatch('Home/set_token',result.data.data)
+				this.$store.dispatch('Config/set_token',result.data.data)
 				this.$store.dispatch('Home/set_login_show',false)
 				this.$message({
 					type: 'success',
 					message: '登录成功!'
 				});
+				this.clear()
 			}else{
 				this.$notify({
 				title: '提示',
@@ -100,6 +106,54 @@ export default {
 				});
 			}
 		},
+		async sign_submit(){
+			let pattern = /^([A-Za-z0-9_\-.\u4e00-\u9fa5])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8})$/;
+			let data;
+			
+			if(pattern.test(this.email)){
+				if(this.psd){
+					data = {
+						appid:this.email,
+						appsecret:this.psd
+					}
+				}else{
+					this.$notify({
+					title: '提示',
+					message: '请填写密码'
+					});
+					return
+				}
+				
+			}else{
+				this.$notify({
+				title: '提示',
+				message: '请填写正确邮箱'
+				});
+				return
+			}
+			
+			let result
+			try {
+				this.loading = true
+				result = await Admin.add_user(data)
+			} catch (e) {
+				this.loading = false
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				console.log(result)
+				this.login_submit()
+				this.$message({
+					type: 'success',
+					message: '注册成功!'
+				});
+			}else{
+				this.$notify({
+				title: '提示',
+				message: result.data.msg
+				});
+			}
+		}
 	}
 }
 </script>

@@ -97,7 +97,7 @@ export default {
 			article_list:[],
 			total:10,//总数
 			current_page:1,//当前页
-			per_page:3//一页显示数
+			per_page:10//一页显示数
 		}
 	},
 	mounted(){

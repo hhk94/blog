@@ -2,6 +2,7 @@
 	<div :class="{'Introduction':true}">
 		<div class="item">站长：hk</div>
 		<div class="item">邮箱：350839123@qq.com</div>
+		<div class="item">湘ICP备20010293号</div>
 	</div>
 </template>
 
