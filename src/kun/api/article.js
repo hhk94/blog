@@ -18,6 +18,21 @@ export default class Cms {
 		return groups
 	}
 	/**
+	 * 文章分类获取
+	 * @param id
+	 * method get
+	 */
+	static async article_type_get(data) {
+		const groups =  await _axios({
+			method: 'get',
+			url: 'cms/article_type_get',
+			data,
+			handleError: true,
+		})
+		return groups
+	}
+	
+	/**
 	 * 文章分类列表
 	 * @param null
 	 * method get
@@ -166,6 +181,23 @@ export default class Cms {
 		})
 		return groups
 	}
+	/**
+	  * 方法说明 - 通过类别获取文章列表
+	  * @url /api/v2/cms/article_list_get_by_type
+	  * @param {int} id
+	  * @method get
+	  */
+	static async article_list_get_by_type(params) {
+		const groups =  await _axios({
+			method: 'get',
+			url: 'cms/article_list_get_by_type',
+			params,
+			handleError: true,
+		})
+		return groups
+	}
+	
+	
 	// static async createOneGroup(name, info, permission_ids) {
 	//   const res = await post('cms/admin/group', {
 	//     name,

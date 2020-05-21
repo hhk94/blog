@@ -14,6 +14,25 @@ Vue.use(ElementUI);
  import animated from 'animate.css' // npm install animate.css --save安装，再引入
  Vue.use(animated)
 
+//引入nprogress
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css' //这个样式必须引入
+
+
+// 简单配置
+NProgress.inc(0.2)
+NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
+
+
+router.beforeEach((to,from,next) => {
+  NProgress.start()
+  next()
+})
+
+router.afterEach(() => {
+  NProgress.done()
+})
+
 
 Vue.config.productionTip = false
 

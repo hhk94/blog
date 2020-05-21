@@ -1,5 +1,11 @@
 <template>
 	<div class="home-list">
+		<div class="sec-header">
+			<el-breadcrumb separator-class="el-icon-arrow-right" ref="test1">
+			<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+			<el-breadcrumb-item v-if="this.type">{{this.type.typename}}</el-breadcrumb-item>
+			</el-breadcrumb>
+		</div>
 		<div class="list-item"
 		v-for="item of this.article_list"
 		:key="item.id"
@@ -41,32 +47,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="list-item">
-			<h1 class="title">这里是标题</h1>
-			<div class="tag-body clear">
-				<div class="tag-item clear">
-					<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
-					<div class="word">Post:2019-06-09</div>
-				</div>
-				<div class="tag-item clear">
-					<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
-					<div class="word">In: <a href="">code</a> </div>
-				</div>
-				<div class="tag-item clear">
-					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
-					<div class="word">Comments: <a href="">7</a> </div>
-				</div>
-			</div>
-			<div class="center">
-				a关于我们
-			</div>
-			<div class="hidden">
-				<div class="hidden-bg"></div>
-				<div class="more clear">
-					<div >Read More</div>
-				</div>
-			</div>
-		</div> -->
 		<el-pagination
 		@current-change="handleCurrentChange"
 		class="pag"
@@ -87,7 +67,7 @@ import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import Article from '@/kun/api/article'
 export default {
-	name: 'List',
+	name: 'TypeArticle',
 	//注册
 	components:{
 		mavonEditor
@@ -97,16 +77,41 @@ export default {
 			article_list:[],
 			total:10,//总数
 			current_page:1,//当前页
-			per_page:10//一页显示数
+			per_page:10,//一页显示数
+			article_type_id:null,
+			type:null
 		}
 	},
+	watch:{
+		'$route.params.id'(val){
+			this.article_type_id = val
+			
+			this.article_list_get_by_type()
+			console.log(val)
+			let timer = setInterval(() => {
+				document.documentElement.scrollTop -=100
+				if (document.documentElement.scrollTop === 0) {
+					clearInterval(timer)
+				}
+			}, 20);
+		}
+	},
+	
 	mounted(){
-		this.article_list_get()
+		this.article_type_id = this.$route.params.id
+		this.article_list_get_by_type()
+		this.article_type_get()
+		let timer = setInterval(() => {
+			document.documentElement.scrollTop -=100
+			if (document.documentElement.scrollTop === 0) {
+				clearInterval(timer)
+			}
+		}, 20);
 	},
 	methods:{
 		handleCurrentChange(val){//页码改变
 			this.current_page = val
-			this.article_list_get()
+			this.article_list_get_by_type()
 		},
 		// 所有操作都会被解析重新渲染 - 编辑区发生改变
 		change(value, render){
@@ -114,15 +119,16 @@ export default {
 			// console.log(render)
 			this.html = render;
 		},
-		async article_list_get(){
+		async article_list_get_by_type(){
 			let data = {
+				id:this.article_type_id,
 				size:this.per_page,
 				page:this.current_page
 			}
 			let result
 			try {
 				this.loading = true
-				result = await Article.article_list_get(data)
+				result = await Article.article_list_get_by_type(data)
 			} catch (e) {
 				this.loading = false
 				console.log(e)
@@ -134,6 +140,22 @@ export default {
 				this.total = result.data.total
 				this.per_page =parseInt(result.data.data.per_page); 
 				// console.log(this.article_list)
+			}
+		},
+		async article_type_get(){
+			let data = {
+				id:this.article_type_id,
+			}
+			let result
+			try {
+				this.loading = true
+				result = await Article.article_type_get(data)
+			} catch (e) {
+				this.loading = false
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				this.type = result.data.data
 			}
 		},
 		go_to_detail(id){
@@ -156,6 +178,12 @@ export default {
 	width: 760px;
 	min-height: 100vh;
 	background-color: white;
+	.sec-header{
+		background-color: #e1f0ff;
+		border-bottom: 1px solid #eee;
+		padding: 10px 5px;
+		margin: 5px;
+	}
 	.list-item{
 		overflow: hidden;
 		height: 400px;

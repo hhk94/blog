@@ -100,8 +100,8 @@ _axios.interceptors.request.use(
       // }
     }
 	// config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
-	console.log('getterstoken')
-	console.log(store.getters.token)
+	// console.log('getterstoken')
+	// console.log(store.getters.token)	
 	if (store.getters.token) {
 		// let each request carry token
 		// ['X-Token'] is a custom headers key
@@ -120,7 +120,7 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
 	res => {
-		console.log(res)
+		// console.log(res)
 		return res
   },
   error => {

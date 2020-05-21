@@ -14,17 +14,20 @@
 			</div>
 		</div>
 		<introduction></introduction>
+		<tab-tag></tab-tag>
 	</div>
 </template>
 
 <script>
 // @ is an alias to /src
 import introduction from '@/components/Introduction.vue'
+import TabTag from "@/components/TabTag.vue"
 import Article from '@/kun/api/article'
 export default {
 	name: 'HotArticle',
 	components: {
-		introduction
+		introduction,
+		TabTag
 	},
 	props:{
 		isFixed:Boolean

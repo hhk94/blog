@@ -2,90 +2,79 @@
 	<div class="home-bg">
 		<div class="home">
 			<div class="body-center clear" ref="left">
-				
-				<el-container>
-					<el-aside width="200px" >
-						<!-- <ranking :isFixed="isFixed"></ranking> -->
-					</el-aside>
-					<el-main>
-						<div class="center">
-							<div class="bot-item">
-								<h1 class="title">用户信息修改</h1>
-								<div class="input-body">
-									<span>id:</span>
-									<el-input
-									placeholder=""
-									disabled
-									v-model="user_item.id"
-									>
-									</el-input>
-								</div>
-								<div class="input-body">
-									<span>账号:</span>
-									<el-input
-									placeholder=""
-									disabled
-									v-model="user_item.appid"
-									>
-									</el-input>
-								</div>
-								<div class="input-body">
-									<span>昵称:</span>
-									<el-input
-									placeholder="请输入昵称"
-									v-model="user_item.nick_name"
-									>
-									</el-input>
-								</div>
-								<div class="input-body">
-									<span>新密码:</span>
-									<el-input
-									placeholder="新密码"
-									v-model="user_item.new_psd"
-									>
-									</el-input>
-								</div>
-								
-								<div class="input-body">
-									<span class="avatar-des">头像：</span>
-									<el-upload
-									class="avatar-uploader"
-									:action="action_avatar_url"
-									:show-file-list="false"
-									:on-success="handleAvatarSuccess"
-									:before-upload="beforeAvatarUpload">
-									
-									<img v-if="imageUrl" :src="imageUrl" class="avatar">
-									<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-									</el-upload>
-								</div>
-								
-								<div class="submit-body">
-									<!-- <el-button type="primary"  class="submit" @click="clear">清空</el-button> -->
-									<el-button type="primary"  class="submit" @click="submit()">修改</el-button>
-								</div>
-								
-							</div>
-							<el-dialog title="修改密码需要验证旧密码" :visible.sync="dialogFormVisible" center>
-								<el-form >
-									<el-form-item label="旧密码" >
-										<el-input 
-										v-model="user_item.psd"
-										placeholder="请输入旧密码"
-										autocomplete="off"></el-input>
-									</el-form-item>
-								</el-form>
-								<div slot="footer" class="dialog-footer">
-									<el-button @click="dialogFormVisible = false">取 消</el-button>
-									<el-button type="primary" @click="check_psd()">确 定</el-button>
-								</div>
-							</el-dialog>
+				<div class="center">
+					<div class="bot-item">
+						<h1 class="title">用户信息修改</h1>
+						<div class="input-body">
+							<span>id:</span>
+							<el-input
+							placeholder=""
+							disabled
+							v-model="user_item.id"
+							>
+							</el-input>
 						</div>
-					</el-main>
-					<el-aside width="200px" >
-						<!-- <hot-article :isFixed="isFixed"></hot-article> -->
-					</el-aside>
-				</el-container>
+						<div class="input-body">
+							<span>账号:</span>
+							<el-input
+							placeholder=""
+							disabled
+							v-model="user_item.appid"
+							>
+							</el-input>
+						</div>
+						<div class="input-body">
+							<span>昵称:</span>
+							<el-input
+							placeholder="请输入昵称"
+							v-model="user_item.nick_name"
+							>
+							</el-input>
+						</div>
+						<div class="input-body">
+							<span>新密码:</span>
+							<el-input
+							placeholder="新密码"
+							v-model="user_item.new_psd"
+							>
+							</el-input>
+						</div>
+						
+						<div class="input-body">
+							<span class="avatar-des">头像：</span>
+							<el-upload
+							class="avatar-uploader"
+							:action="action_avatar_url"
+							:show-file-list="false"
+							:on-success="handleAvatarSuccess"
+							:before-upload="beforeAvatarUpload">
+							
+							<img v-if="imageUrl" :src="imageUrl" class="avatar">
+							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+							</el-upload>
+						</div>
+						
+						<div class="submit-body">
+							<!-- <el-button type="primary"  class="submit" @click="clear">清空</el-button> -->
+							<el-button type="primary"  class="submit" @click="submit()">修改</el-button>
+						</div>
+						
+					</div>
+					<el-dialog title="修改密码需要验证旧密码" :visible.sync="dialogFormVisible" center>
+						<el-form >
+							<el-form-item label="旧密码" >
+								<el-input 
+								v-model="user_item.psd"
+								placeholder="请输入旧密码"
+								autocomplete="off"></el-input>
+							</el-form-item>
+						</el-form>
+						<div slot="footer" class="dialog-footer">
+							<el-button @click="dialogFormVisible = false">取 消</el-button>
+							<el-button type="primary" @click="check_psd()">确 定</el-button>
+						</div>
+					</el-dialog>
+				</div>
 			</div>
 			
 		</div>
@@ -257,11 +246,11 @@ export default {
 		top: 0;
 	}
 	.home{
-		width: $common-container;
+		
 		margin: 0 auto;
 		// background-color: white;
 		.body-center{
-			margin-top: 20px;
+			
 			.center{
 				width: 760px;
 				background-color: white;

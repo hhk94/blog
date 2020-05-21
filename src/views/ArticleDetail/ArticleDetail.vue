@@ -30,6 +30,7 @@
 							<div class="sec-header">
 								<el-breadcrumb separator-class="el-icon-arrow-right" ref="test1">
 								<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+								<el-breadcrumb-item :to="{ path: '/type-article/'+this.belong_article_type.id }">{{this.belong_article_type.typename}}</el-breadcrumb-item>
 								<el-breadcrumb-item>{{this.article_title}}</el-breadcrumb-item>
 								</el-breadcrumb>
 							</div>
@@ -221,7 +222,7 @@ export default {
 		},
 		init(){
 			let timer = setInterval(() => {
-				document.documentElement.scrollTop -=10
+				document.documentElement.scrollTop -=100
 				if (document.documentElement.scrollTop === 0) {
 					clearInterval(timer)
 				}

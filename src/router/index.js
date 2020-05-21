@@ -8,18 +8,39 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+	children:[
+		{
+			path: '',
+			name: 'List',
+			component: () => import('../views/Home/components/list.vue')
+		},
+		{
+			path: 'person-change',
+			name: 'ArticleDetail',
+			component: () => import('../views/Personal/PersonalChange.vue')
+		},
+		
+	]
+  },
+  {
+		path: '',
+		name: 'TypeHome',
+		component: () => import('../views/TypeArticle/TypeHome.vue'),
+		children:[
+			{
+				path: 'type-article/:id',
+				name: 'TypeArticle',
+				component: () => import('../views/TypeArticle/TypeArticle.vue')
+			},
+		]
   },
   {
     path: '/article-detail',
     name: 'ArticleDetail',
     component: () => import('../views/ArticleDetail/ArticleDetail.vue')
   },
-  {
-    path: '/person-change',
-    name: 'ArticleDetail',
-    component: () => import('../views/Personal/PersonalChange.vue')
-  },
+  
   {
     path: '/about',
     name: 'About',
@@ -33,5 +54,10 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default router

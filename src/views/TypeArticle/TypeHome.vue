@@ -16,9 +16,7 @@
 		UP
 		</div>
 		</el-backtop>
-		<div class="bg"></div>
 		<div class="home">
-			<banner ></banner>
 			<div class="body-center clear" ref="left">
 				
 				<el-container>
@@ -37,7 +35,6 @@
 					</el-aside>
 				</el-container>
 			</div>
-			
 		</div>
 	</div>
 	
@@ -45,16 +42,14 @@
 
 <script>
 // @ is an alias to /src
-import Banner from './components/banner.vue'
 // import List from './components/list.vue'
-import Ranking from './components/ranking.vue'
-import HotArticle from './components/hot_article.vue'
+import Ranking from '../Home/components/ranking.vue'
+import HotArticle from '../Home/components/hot_article.vue'
 import Utils from '@/kun/utils/util.js'
 
 export default {
 	name: 'Home',
 	components: {
-		Banner,
 		// List,
 		Ranking,
 		HotArticle,
@@ -106,14 +101,6 @@ export default {
 .home-bg{
 	position: relative;
 	width: 100%;
-	.bg{
-		background-color: $theme-color;
-		position: absolute;
-		width: 100%;
-		height: 330px;
-		left: 0;
-		top: 0;
-	}
 	.home{
 		width: $common-container;
 		margin: 0 auto;
