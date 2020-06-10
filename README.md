@@ -10,6 +10,8 @@
 - [kun-cms-api github api接口](https://github.com/hhk94/kun-cms-api)
 - [kun-cms-api gitee api接口](https://gitee.com/hkchina/kun-cms-api)
 
+### 2.更新说明
+ - 1。新增404页面
 
 ## Project setup
 ```
