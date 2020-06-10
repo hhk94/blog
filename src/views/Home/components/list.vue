@@ -102,6 +102,7 @@ export default {
 	},
 	mounted(){
 		this.article_list_get()
+		
 	},
 	methods:{
 		handleCurrentChange(val){//页码改变

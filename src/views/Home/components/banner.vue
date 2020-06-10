@@ -70,17 +70,11 @@ export default {
 	methods:{
 		async init(){
 			await this.banner_list_get()
-			let _this = this;
+			// let _this = this;
 			this.swiper.on('tap', function () {
 				console.log('a')
 				// _this.goToDetail(this.clickedSlide.getAttribute('data_index'));//调用你自定义的方法
-				if(this.clickedSlide.getAttribute('data_index')=='zx'){
-					window.open('https://tb.53kf.com/code/stat/0e0881fb4bf9cb323abd9dff7089b4290/1')
-				}else{
-					_this.$router.push({path:'/spacial/spacial-'+this.clickedSlide.getAttribute('data_index')}).catch(err => {err})
-					
-				}
-				
+				window.open(this.clickedSlide.getAttribute('data_index'))
 			})
 		},
 		async banner_list_get(){

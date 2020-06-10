@@ -87,7 +87,8 @@ export default {
 			this.article_type_id = val
 			
 			this.article_list_get_by_type()
-			console.log(val)
+			this.article_type_get()
+			// console.log(val)
 			let timer = setInterval(() => {
 				document.documentElement.scrollTop -=100
 				if (document.documentElement.scrollTop === 0) {

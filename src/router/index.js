@@ -5,25 +5,25 @@ import Home from '../views/Home/Home.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-	children:[
-		{
-			path: '',
-			name: 'List',
-			component: () => import('../views/Home/components/list.vue')
-		},
-		{
-			path: 'person-change',
-			name: 'ArticleDetail',
-			component: () => import('../views/Personal/PersonalChange.vue')
-		},
+	{
+		path: '/',
+		name: 'Home',
+		component: Home,
+		children:[
+			{
+				path: '',
+				name: 'List',
+				component: () => import('../views/Home/components/list.vue')
+			},
+			{
+				path: 'person-change',
+				name: 'ArticleDetail',
+				component: () => import('../views/Personal/PersonalChange.vue')
+			},
 		
-	]
-  },
-  {
+		]
+	},
+	{
 		path: '',
 		name: 'TypeHome',
 		component: () => import('../views/TypeArticle/TypeHome.vue'),
@@ -33,22 +33,23 @@ const routes = [
 				name: 'TypeArticle',
 				component: () => import('../views/TypeArticle/TypeArticle.vue')
 			},
+			{
+				path: '/404',
+				name: '404',
+				component: () => import('../views/Error/404.vue')
+			},
+			
 		]
-  },
-  {
-    path: '/article-detail',
-    name: 'ArticleDetail',
-    component: () => import('../views/ArticleDetail/ArticleDetail.vue')
-  },
-  
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+	},
+	{
+		path: '/article-detail',
+		name: 'ArticleDetail',
+		component: () => import('../views/ArticleDetail/ArticleDetail.vue')
+	},
+	{
+		redirect: '/404',
+		path: '*',
+	}
 ]
 
 const router = new VueRouter({
