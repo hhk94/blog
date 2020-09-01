@@ -1,6 +1,6 @@
 <template>
-	<div class="header">
-		<div class="container clear">
+	<div class="header" :style="opacityStyle" :class="{'fixed':this.isFixed}">
+		<div  class="container clear">
 			<!-- logo -->
 			<div class="logo" @click="home()">
 				<img src="@/assets/img/kun3.png" alt="">
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import Utils from '@/kun/utils/util.js'
 export default {
 	name: 'Header',
 	components: {
@@ -86,11 +87,22 @@ export default {
 					path:'/life'
 				},
 			],
-			tabs_active:"/"
+			tabs_active:"/",
+			//处理定位切换
+			isFixed:false,
+			wait: 100, // 2000ms之内不能重复发起请求
+			throttleScroll: null, // 节流登录
+			opacityStyle:{
+				opacity:1
+			}
 		}
 	},
 	mounted() {
-		// console.log(this.$route)
+		this.throttleScroll = Utils.throttle(this.handleScroll, this.wait)
+		window.addEventListener("scroll",this.throttleScroll);
+	},
+	destroyed: function () {
+			window.removeEventListener('scroll', this.throttleScroll);   //  离开页面清除（移除）滚轮滚动事件
 	},
 	watch:{
 		'$route':function(val){
@@ -100,6 +112,27 @@ export default {
 		}
 	},
 	methods:{
+		handleScroll() {
+		//获取滚动时的高度
+			let over = 60 + 5;//缓冲距离 = 导航高度+缓冲
+			let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+			let opacity = 0
+			if ( scrollTop<over*2 ) {
+				this.opacityStyle = {
+					opacity:1
+				}
+				this.isFixed = false
+			}else{
+				this.isFixed = true
+				opacity = (scrollTop - over*2) /140
+				// console.log(opacity)
+				opacity = opacity > 1? 1 : opacity
+				this.opacityStyle = {
+					opacity
+				}
+			}
+			// console.log('1')
+		},
 		//展示登录
 		show_login(){
 			this.$store.dispatch('Home/set_login_show',true)
@@ -136,6 +169,13 @@ export default {
 .header{
 	height: 60px;
 	background: $theme-header;
+	&.fixed{
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: 9999;
+		position: fixed;
+	}
 	.container{
 		width: $common-container;
 		margin: 0 auto;

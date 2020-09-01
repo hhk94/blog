@@ -5,6 +5,7 @@
 		</div>
 		
 		
+		
 	</div>
 </template>
 
@@ -47,7 +48,7 @@ export default {
 <style scoped="scoped" lang="scss">
 .substats{
 	background-color: white;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	padding: 20px;
 	display: flex;
 	flex-wrap: wrap;

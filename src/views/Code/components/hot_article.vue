@@ -1,6 +1,7 @@
 <template>
-	<div :class="{'home-article':true,'fixed':this.isFixed}" >
-		<substats></substats>
+	<!-- <div :class="{'home-article':true,'fixed':this.isFixed}" > -->
+	<!-- 修改定位 -->
+	<div class="home-article">	
 		<div class="top">
 			<h1 class="title">热门文章</h1>
 			<div 
@@ -22,7 +23,7 @@
 <script>
 // @ is an alias to /src
 import introduction from '@/components/Introduction.vue'
-import substats from '@/components/Substats.vue'
+
 import TabTag from "@/components/TabTag.vue"
 import Article from '@/kun/api/article'
 export default {
@@ -30,7 +31,7 @@ export default {
 	components: {
 		introduction,
 		TabTag,
-		substats
+		
 	},
 	props:{
 		isFixed:Boolean
@@ -71,10 +72,10 @@ export default {
 	width: 200px;
 	// height: 100vh;
 	
-	&.fixed{
-		position: fixed;
-		top: 0;
-	}
+	// &.fixed{
+	// 	position: fixed;
+	// 	top: 0;
+	// }
 	.top{
 		background-color: white;
 	}
