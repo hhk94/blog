@@ -3,8 +3,11 @@
 		<div class="list-item"
 		v-for="item of this.article_list"
 		:key="item.id"
+		
 		>
-			<h1 class="title">{{item.article_title}}</h1>
+			<h1 
+			@click="go_to_detail(item.id)"
+			class="title">{{item.article_title}}</h1>
 			<div class="tag-body clear">
 				<div class="tag-item clear">
 					<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
@@ -12,7 +15,7 @@
 				</div>
 				<div class="tag-item clear">
 					<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
-					<div class="word">In: <router-link :to="{ path: '/type-article/'+item.belong_article_type.id }">{{item.belong_article_type.typename}}</router-link> </div>
+					<div class="word">In: <router-link :to="{ path: '/code/type-article/'+item.belong_article_type.id +'?type='+item.belong_article_type.typename}">{{item.belong_article_type.typename}}</router-link> </div>
 				</div>
 				<div class="tag-item clear">
 					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
@@ -23,7 +26,7 @@
 					<div class="word">作者: {{item.belong_user.nick_name}} </div>
 				</div>
 			</div>
-			<div class="center">
+			<!-- <div class="center">
 				<mavon-editor
 				v-model="item.article_content" 
 				:toolbarsFlag="false"
@@ -33,13 +36,13 @@
 				@change="change" 
 				class="edit"
 				/>
-			</div>
-			<div class="hidden">
+			</div> -->
+			<!-- <div class="hidden">
 				<div class="hidden-bg"></div>
 				<div class="more clear">
 					<div @click="go_to_detail(item.id)">Read More</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<!-- <div class="list-item">
 			<h1 class="title">这里是标题</h1>
@@ -83,14 +86,14 @@
 // @ is an alias to /src
 
 // 导入组件 及 组件样式
-import { mavonEditor } from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+// import { mavonEditor } from 'mavon-editor'
+// import 'mavon-editor/dist/css/index.css'
 import Article from '@/kun/api/article'
 export default {
 	name: 'List',
 	//注册
 	components:{
-		mavonEditor
+		// mavonEditor
 	},
 	data(){
 		return {
@@ -130,16 +133,16 @@ export default {
 			}
 			if(result.data.state==window.g.SUCCESS_STATE){
 				this.loading = false
-				this.article_list = result.data.data.data
+				this.article_list = result.data.data
 				this.current_page = result.data.current_page
 				this.total = result.data.total
-				this.per_page =parseInt(result.data.data.per_page); 
+				// this.per_page =parseInt(result.data.data.per_page); 
 				// console.log(this.article_list)
 			}
 		},
 		go_to_detail(id){
 			console.log(id)
-			this.$router.push({path:'/article-detail',query:{id:id}})
+			this.$router.push({path:'/code/article-detail',query:{id:id}})
 		}
 	}
 }
@@ -159,25 +162,31 @@ export default {
 	background-color: white;
 	.list-item{
 		overflow: hidden;
-		height: 400px;
+		// height: 200px;
 		position: relative;
 		padding: 30px 30px;
 		// margin: 20px 40px;
 		box-sizing: border-box;
-		border-bottom: 1px solid $theme-color;
+		border-bottom: 1px solid $back-color;
 		// background-color: black;
+		&:hover{
+			background: #fafafa;
+		}
 		.title{
 			font-size: $uni-font-size-subtitle;
 			color:$uni-color-title ;
-			
+			cursor: pointer;
 			padding-bottom: 10px;
 			
 			font-weight: bold;
 			letter-spacing: 2px;
+			&:hover{
+				color: #ca0c16;
+			}
 		}
 		.tag-body{
-			border-bottom: 1px solid $back-color;
-			margin-bottom: 20px;
+			// border-bottom: 1px solid $back-color;
+			// margin-bottom: 20px;
 			.tag-item{
 				
 				height: 30px;
@@ -221,14 +230,14 @@ export default {
 			left: 0;
 			bottom: 0;
 			
-			.hidden-bg{
-				background:linear-gradient(-180deg,hsla(0,0%,100%,0),#fff 70%);
-				height: 100px;
-			}
+			// .hidden-bg{
+			// 	background:linear-gradient(-180deg,hsla(0,0%,100%,0),#fff 70%);
+			// 	height: 100px;
+			// }
 			.more{
 				background-color: white;
 				div{
-					float: right;
+					float: right;			
 					font-size: $uni-font-size-subtitle;
 					margin: 0 20px 20px 0;
 					cursor: pointer;

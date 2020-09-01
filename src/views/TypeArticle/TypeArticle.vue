@@ -2,15 +2,17 @@
 	<div class="home-list">
 		<div class="sec-header">
 			<el-breadcrumb separator-class="el-icon-arrow-right" ref="test1">
-			<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-			<el-breadcrumb-item v-if="this.type">{{this.type.typename}}</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/code/c-home' }">首页</el-breadcrumb-item>
+			<el-breadcrumb-item v-if="this.type">{{this.type}}</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="list-item"
 		v-for="item of this.article_list"
 		:key="item.id"
 		>
-			<h1 class="title">{{item.article_title}}</h1>
+			<h1 
+			@click="go_to_detail(item.id)"
+			class="title">{{item.article_title}}</h1>
 			<div class="tag-body clear">
 				<div class="tag-item clear">
 					<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
@@ -18,7 +20,7 @@
 				</div>
 				<div class="tag-item clear">
 					<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
-					<div class="word">In: <router-link :to="{ path: '/type-article/'+item.belong_article_type.id }">{{item.belong_article_type.typename}}</router-link> </div>
+					<div class="word">In: <router-link :to="{ path: '/code/type-article/'+item.belong_article_type.id +'?type='+item.belong_article_type.typename}">{{item.belong_article_type.typename}}</router-link> </div>
 				</div>
 				<div class="tag-item clear">
 					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
@@ -27,23 +29,6 @@
 				<div class="tag-item clear">
 					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
 					<div class="word">作者: {{item.belong_user.nick_name}} </div>
-				</div>
-			</div>
-			<div class="center">
-				<mavon-editor
-				v-model="item.article_content" 
-				:toolbarsFlag="false"
-				:boxShadow="false"
-				:defaultOpen="'preview'"
-				:subfield="false"
-				@change="change" 
-				class="edit"
-				/>
-			</div>
-			<div class="hidden">
-				<div class="hidden-bg"></div>
-				<div class="more clear">
-					<div @click="go_to_detail(item.id)">Read More</div>
 				</div>
 			</div>
 		</div>
@@ -63,14 +48,11 @@
 // @ is an alias to /src
 
 // 导入组件 及 组件样式
-import { mavonEditor } from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
 import Article from '@/kun/api/article'
 export default {
 	name: 'TypeArticle',
 	//注册
 	components:{
-		mavonEditor
 	},
 	data(){
 		return {
@@ -84,10 +66,11 @@ export default {
 	},
 	watch:{
 		'$route.params.id'(val){
+			this.type = this.$route.query.type
 			this.article_type_id = val
 			
 			this.article_list_get_by_type()
-			this.article_type_get()
+			// this.article_type_get()
 			// console.log(val)
 			let timer = setInterval(() => {
 				document.documentElement.scrollTop -=100
@@ -99,9 +82,10 @@ export default {
 	},
 	
 	mounted(){
+		this.type = this.$route.query.type
 		this.article_type_id = this.$route.params.id
 		this.article_list_get_by_type()
-		this.article_type_get()
+		// this.article_type_get()
 		let timer = setInterval(() => {
 			document.documentElement.scrollTop -=100
 			if (document.documentElement.scrollTop === 0) {
@@ -143,6 +127,7 @@ export default {
 				// console.log(this.article_list)
 			}
 		},
+		//获取分类 -已弃用
 		async article_type_get(){
 			let data = {
 				id:this.article_type_id,
@@ -161,7 +146,7 @@ export default {
 		},
 		go_to_detail(id){
 			console.log(id)
-			this.$router.push({path:'/article-detail',query:{id:id}})
+			this.$router.push({path:'/code/article-detail',query:{id:id}})
 		}
 	}
 }
@@ -187,29 +172,34 @@ export default {
 	}
 	.list-item{
 		overflow: hidden;
-		height: 400px;
 		position: relative;
 		padding: 30px 30px;
 		// margin: 20px 40px;
 		box-sizing: border-box;
-		border-bottom: 1px solid $theme-color;
+		border-bottom: 1px solid $back-color;
 		// background-color: black;
+		&:hover{
+			background: #fafafa;
+		}
 		.title{
 			font-size: $uni-font-size-subtitle;
 			color:$uni-color-title ;
-			
+			cursor: pointer;
 			padding-bottom: 10px;
 			
 			font-weight: bold;
 			letter-spacing: 2px;
+			&:hover{
+				color: #ca0c16;
+			}
 		}
 		.tag-body{
-			border-bottom: 1px solid $back-color;
-			margin-bottom: 20px;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: flex-start;
 			.tag-item{
-				
+				// display: flex;
 				height: 30px;
-				float: left;
 				margin-right:20px;
 				div{
 					font-size: $hk-mid;
@@ -231,6 +221,8 @@ export default {
 				}
 				.word{
 					margin-top: 6px;
+					max-width: 175px;
+					@include  _one-line();
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 <template>
 	<div :class="{'home-article':true,'fixed':this.isFixed}" >
+		<substats></substats>
 		<div class="top">
 			<h1 class="title">热门文章</h1>
 			<div 
@@ -21,13 +22,15 @@
 <script>
 // @ is an alias to /src
 import introduction from '@/components/Introduction.vue'
+import substats from '@/components/Substats.vue'
 import TabTag from "@/components/TabTag.vue"
 import Article from '@/kun/api/article'
 export default {
 	name: 'HotArticle',
 	components: {
 		introduction,
-		TabTag
+		TabTag,
+		substats
 	},
 	props:{
 		isFixed:Boolean
@@ -52,11 +55,11 @@ export default {
 			}
 			if(result.data.state==window.g.SUCCESS_STATE){
 				this.list = result.data.data 
-				console.log(this.list )
+				// console.log(this.list )
 			}
 		},
 		go_to_detail(id){
-			this.$router.push({path:'/article-detail',query:{id:id}})
+			this.$router.push({path:'/code/article-detail',query:{id:id}})
 		}
 	}
 }

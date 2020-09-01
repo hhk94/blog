@@ -197,6 +197,14 @@ export default class Cms {
 		return groups
 	}
 	
+	static async get_visit_count(){
+		const groups =  await _axios({
+			method: 'get',
+			url: 'cms/get_visit_count',
+			handleError: true,
+		})
+		return groups
+	}
 	
 	// static async createOneGroup(name, info, permission_ids) {
 	//   const res = await post('cms/admin/group', {

@@ -10,6 +10,7 @@
   "dependencies": {
     "animate.css": "^3.7.2",
     "axios": "^0.19.2",
+    "babel-preset-es2015": "^6.24.1",
     "core-js": "^3.6.4",
     "element-ui": "^2.13.0",
     "mavon-editor": "^2.9.0",
@@ -33,7 +34,9 @@
     "sass-loader": "^8.0.2",
     "style-resources-loader": "^1.3.2",
     "vue-cli-plugin-style-resources-loader": "^0.1.4",
-    "vue-template-compiler": "^2.6.11"
+    "vue-cli-plugin-webpack-bundle-analyzer": "^2.0.0",
+    "vue-template-compiler": "^2.6.11",
+    "webpack-bundle-analyzer": "^3.8.0"
   },
   "eslintConfig": {
     "root": true,

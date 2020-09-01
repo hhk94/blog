@@ -1,7 +1,9 @@
 $test-color:red;
 $common-container:1200px;//设计中心
-$theme-color:#202328;//主色
+$theme-color:#262626;//主色
 $back-color:#9e9e9e38	;//辅助灰色，底色
+$theme-header:white;
+
 .clear{
 	position: relative;
 	zoom: 1;
@@ -28,6 +30,27 @@ $back-color:#9e9e9e38	;//辅助灰色，底色
    -webkit-line-clamp: $num;
    overflow: hidden;
 }
+@mixin _no_date(){
+	//处理无内容的效果
+	padding-top: 100px;
+	position: relative;
+	text-align: center;
+	color: #bfbfbf;
+	font-size: $uni-font-size-paragraph;
+	&::after{
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		content: '';
+		display: block;
+		width: 100px;
+		height: 100px;
+		background: url(../../assets/img/comments.gif) no-repeat center center/contain;
+	}
+}
+
+
 
 /* 文章场景相关 */
 $uni-color-title: #2C405A; // 文章标题颜色

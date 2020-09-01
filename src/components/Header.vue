@@ -1,14 +1,27 @@
 <template>
 	<div class="header">
 		<div class="container clear">
+			<!-- logo -->
 			<div class="logo" @click="home()">
 				<img src="@/assets/img/kun3.png" alt="">
 			</div>
+			<!-- index -->
+			<div class="tab-body-global">
+				<div 
+				v-for="item in this.tabs"
+				:key="item.name"
+				@click="tabs_jump(item)"
+				class="tab-item"
+				:class="{'active':tabs_active.indexOf(item.path)!=-1}"
+				>{{item.name}}</div>
+				
+			</div>
+			<!-- user login -->
 			<div class="item-body clear">
 				<div class="item" 
 				v-show="!this.$store.getters.token"
 				@click="show_login">
-					<img src="@/assets/img/login.png" alt="">
+					<img src="@/assets/img/login2.png" alt="">
 				</div>
 				<div class="item" v-if="this.$store.getters.token">
 					<!-- <div class="circle"><img :src="this.$store.getters.token.app.avatar_img_url" alt=""></div> -->
@@ -56,28 +69,64 @@ export default {
 	},
 	data(){
 		return{
-			
+			tabs:[
+				{
+					name:'Home',
+					chinese:'首页',
+					path:'/home'
+				},
+				{
+					name:'Code',
+					chinese:'代码',
+					path:'/code'
+				},
+				{
+					name:'Life',
+					chinese:'生活',
+					path:'/life'
+				},
+			],
+			tabs_active:"/"
 		}
 	},
 	mounted() {
-		console.log(this.$store.getters.token)
+		// console.log(this.$route)
+	},
+	watch:{
+		'$route':function(val){
+			const {path} = val
+			// console.log(path)
+			this.tabs_active = path
+		}
 	},
 	methods:{
+		//展示登录
 		show_login(){
 			this.$store.dispatch('Home/set_login_show',true)
 		},
+		//关闭登录
 		close_f(){
 			this.$store.dispatch('Home/set_login_show',false)
 		},
+		//回到首页
 		home(){
 			this.$router.push('/')
 		},
+		//登出
 		login_out(){
 			this.$store.dispatch('Config/loginOut')
 			this.$router.push('/')
 		},
+		//修改资料
 		change_user(){
 			this.$router.push('/person-change')
+		},
+		//tabs跳转
+		tabs_jump(item){
+			const { path } = item
+			// console.log(path)
+			path&&this.$router.push(path)
+			
 		}
 	}
 }
@@ -86,7 +135,7 @@ export default {
 <style lang="scss" scoped="scoped">
 .header{
 	height: 60px;
-	background: $theme-color;
+	background: $theme-header;
 	.container{
 		width: $common-container;
 		margin: 0 auto;
@@ -94,6 +143,30 @@ export default {
 			float: left;
 			width: 40px;
 			margin: 10px 0;
+		}
+		.tab-body-global{
+			float: left;
+			margin-left:calc(1200px/2 - 40px );
+			transform: translateX(-50%);
+			display: flex;
+			justify-content: flex-start;
+			.tab-item{
+				line-height: 60px;
+				padding: 0 20px;
+				text-align: center;
+				font-size: $uni-font-size-title;
+				cursor: pointer;
+				color: $theme-color;
+				transition: all 0.3s;
+				&:hover{
+					background-color: $theme-color;
+					color: $theme-header;
+				}
+				&.active{
+					background-color: $theme-color;
+					color: $theme-header;
+				}
+			}
 		}
 		.item-body{
 			float: right;

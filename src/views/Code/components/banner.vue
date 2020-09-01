@@ -91,7 +91,7 @@ export default {
 			}
 			if(result.data.state==window.g.SUCCESS_STATE){
 				this.list = result.data.data 
-				console.log(this.list )
+				// console.log(this.list )
 			}
 		}
 	}

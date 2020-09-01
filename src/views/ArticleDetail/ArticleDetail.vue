@@ -1,5 +1,5 @@
 <template>
-	<div class="home">
+	<div class="">
 		<el-backtop :bottom="100">
 		<div
 		style="{
@@ -16,110 +16,99 @@
 		UP
 		</div>
 		</el-backtop>
-		<div class="body-center clear" ref="left">
-			
-			
-			<el-container>
-				<el-aside width="200px" >
-					<ranking :isFixed="isFixed"></ranking>
-				</el-aside>
-				<el-main>
-					<div>
-						<!-- 文章主体 -->
-						<div class="home-list">
-							<div class="sec-header">
-								<el-breadcrumb separator-class="el-icon-arrow-right" ref="test1">
-								<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-								<el-breadcrumb-item :to="{ path: '/type-article/'+this.belong_article_type.id }">{{this.belong_article_type.typename}}</el-breadcrumb-item>
-								<el-breadcrumb-item>{{this.article_title}}</el-breadcrumb-item>
-								</el-breadcrumb>
+		<div>
+			<!-- 文章主体 -->
+			<div class="home-list">
+				<div class="sec-header">
+					<el-breadcrumb separator-class="el-icon-arrow-right" ref="test1">
+					<el-breadcrumb-item :to="{ path: '/code/c-home' }">首页</el-breadcrumb-item>
+					<el-breadcrumb-item :to="{ path: '/code/type-article/'+this.belong_article_type.id +'?type='+this.belong_article_type.typename}">{{this.belong_article_type.typename}}</el-breadcrumb-item>
+					<el-breadcrumb-item>{{this.article_title}}</el-breadcrumb-item>
+					</el-breadcrumb>
+				</div>
+				<div class="list-item">
+					<h1 class="title">{{this.article_title}}</h1>
+					<div class="tag-body clear">
+						<div class="tag-item clear">
+							<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
+							<div class="word">Post:{{this.update_time}}</div>
+						</div>
+						<div class="tag-item clear">
+							<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
+							<div class="word">In: <router-link 
+							:to="{ path: '/code/type-article/'+this.belong_article_type.id +'?type='+this.belong_article_type.typename}">
+							{{this.belong_article_type.typename}}</router-link> 
 							</div>
-							<div class="list-item">
-								<h1 class="title">{{this.article_title}}</h1>
-								<div class="tag-body clear">
-									<div class="tag-item clear">
-										<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
-										<div class="word">Post:{{this.update_time}}</div>
-									</div>
-									<div class="tag-item clear">
-										<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
-										<div class="word">In: <a href="">{{this.belong_article_type.typename}}</a> </div>
-									</div>
-									<div class="tag-item clear">
-										<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
-										<div class="word">Comments: <a href="">{{this.total}}</a> </div>
-									</div>
-									<div class="tag-item clear">
-										<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
-										<div class="word">作者: {{this.belong_user.nick_name}} </div>
-									</div>
-								</div>
-								<!-- :toolbarsFlag="false" -->
-								<div class="center" >
-									<mavon-editor
-									
-									v-model="article_content" 
-									:boxShadow="false"
-									:defaultOpen="'preview'"
-									:subfield="false"
-									:toolbars="toolbars"
-									class="edit"
-									/>
-								</div>
+							
+						</div>
+						<div class="tag-item clear">
+							<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
+							<div class="word">Comments: <a href="">{{this.total}}</a> </div>
+						</div>
+						<div class="tag-item clear">
+							<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
+							<div class="word">作者: {{this.belong_user.nick_name}} </div>
+						</div>
+					</div>
+					<!-- :toolbarsFlag="false" -->
+					<div class="center" >
+						<mavon-editor
+						
+						v-model="article_content" 
+						:boxShadow="false"
+						:defaultOpen="'preview'"
+						:subfield="false"
+						:toolbars="toolbars"
+						class="edit"
+						/>
+					</div>
+				</div>
+				<!-- 评论列表 -->
+				<div class="comment">
+					<h1 class="t1">评论列表 <span class="add-comment" @click="add_comment(0)">撰写评论</span></h1>
+					<div class="comment-list">
+						<div class="no_comments" v-show="this.total==0">暂无评论,快来抢占沙发吧~</div>
+						<!-- <img src="@/assets/img/comments.gif" alt=""> -->
+						<div 
+						class="comment-item"
+						v-for="item of this.comments"
+						:key="item.id"
+						>
+							<div class="person-logo">
+								<img :src="item.belong_user.avatar_img_url" alt="">
 							</div>
-							<!-- 评论列表 -->
-							<div class="comment">
-								<h1 class="t1">评论列表 <span class="add-comment" @click="add_comment(0)">撰写评论</span></h1>
-								<div class="comment-list">
-									<div class="no_comments" v-show="this.total==0">暂无评论,快来抢占沙发吧~</div>
-									<!-- <img src="@/assets/img/comments.gif" alt=""> -->
-									<div 
-									class="comment-item"
-									v-for="item of this.comments"
-									:key="item.id"
+							<div class="word">
+								<h1 class="name">{{item.belong_user.nick_name}}</h1>
+								<h2 class="time">{{item.update_time}}</h2>
+								<div class="replay">
+									<span class="detail">{{item.comment_content}}</span>
+									<div class="old_user" 
+									v-for="item2 of item.father_list"
+									:key="item2.id"
 									>
-										<div class="person-logo">
-											<img :src="item.belong_user.avatar_img_url" alt="">
-										</div>
-										<div class="word">
-											<h1 class="name">{{item.belong_user.nick_name}}</h1>
-											<h2 class="time">{{item.update_time}}</h2>
-											<div class="replay">
-												<span class="detail">{{item.comment_content}}</span>
-												<div class="old_user" 
-												v-for="item2 of item.father_list"
-												:key="item2.id"
-												>
-													<span class="user">//@{{item2.belong_user.nick_name}}:</span><span class="detail">{{item2.comment_content}}</span>
-												</div>
-												
-											</div>
-											<div class="answer" @click="add_comment(item.id)">回复</div>
-										</div>
+										<span class="user">//@{{item2.belong_user.nick_name}}:</span><span class="detail">{{item2.comment_content}}</span>
 									</div>
 									
-									
-									
 								</div>
+								<div class="answer" @click="add_comment(item.id)">回复</div>
 							</div>
-							<el-pagination
-							@current-change="handleCurrentChange"
-							class="pag"
-							background
-							layout="prev, pager, next"
-							:current-page="this.current_page"
-							:page-size="this.per_page"
-							:total="this.total">
-							</el-pagination>
 						</div>
 						
+						
+						
 					</div>
-					
-				</el-main>
-				<el-aside width="200px" >
-					<hot-article :isFixed="isFixed"></hot-article>
-				</el-aside>
-			</el-container>
+				</div>
+				<el-pagination
+				@current-change="handleCurrentChange"
+				class="pag"
+				background
+				layout="prev, pager, next"
+				:current-page="this.current_page"
+				:page-size="this.per_page"
+				:total="this.total">
+				</el-pagination>
+			</div>
+			
 		</div>
 		<el-dialog title="评论" 
 		:visible.sync="dialogFormVisible" 
@@ -143,7 +132,6 @@
 </template>
 
 <script>
-import Utils from '@/kun/utils/util.js'
 import { Storage } from '@/kun/utils/storage'
 var storage = new Storage();
 // 导入组件 及 组件样式
@@ -151,13 +139,9 @@ import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 // @ is an alias to /src
 import Article from '@/kun/api/article'
-import Ranking from '../Home/components/ranking.vue'
-import HotArticle from '../Home/components/hot_article.vue'
 export default {
 	name: 'Home',
 	components: {
-		Ranking,
-		HotArticle,
 		mavonEditor
 	},
 	data(){
@@ -196,30 +180,9 @@ export default {
 	},
 	mounted() {
 		this.init()
-		this.throttleScroll = Utils.throttle(this.handleScroll, this.wait)
-		window.addEventListener("scroll",this.throttleScroll);
 		
 	},
-	destroyed: function () {
-		window.removeEventListener('scroll', this.throttleScroll);   //  离开页面清除（移除）滚轮滚动事件
-	},
 	methods:{
-		handleScroll() {
-		//获取滚动时的高度
-			let over = 40;//缓冲距离
-			let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-			let oneHeight = this.$refs.left.offsetTop +over ;//元素到父级顶部的距离
-			// let oneHeight = this.$refs.left.offsetHeight ;//元素自身的高度
-			if (scrollTop > oneHeight) {
-			//这是滑动到scrollTwo的距离要做的操作
-				// console.log('超过左边')
-				// console.log(scrollTop)
-				this.isFixed = true
-			}else{
-				this.isFixed = false
-			}
-			// console.log('1')
-		},
 		init(){
 			let timer = setInterval(() => {
 				document.documentElement.scrollTop -=100
@@ -248,18 +211,20 @@ export default {
 				console.log(e)
 			}
 			if(result.data.state==window.g.SUCCESS_STATE){
-				console.log(result)
+				// console.log(result)
 				// this.content = result.data.data.article_content
 				this.article_title = result.data.data.article_title
 				this.article_content = result.data.data.article_content
 				this.belong_article_type = result.data.data.belong_article_type
 				this.belong_user = result.data.data.belong_user
 				this.update_time = result.data.data.update_time
+			}else{
+				this.$router.push("*")
 			}
 		},
 		add_comment(tid){//点击回复评论
 			let data = storage.get_storage('USER_INFO')
-			console.log(data)
+			// console.log(data)
 			if(data){
 				this.user_id = data.app.id
 				this.tid = tid
@@ -320,7 +285,7 @@ export default {
 				console.log(e)
 			}
 			if(result.data.state==window.g.SUCCESS_STATE){
-				console.log(result)
+				// console.log(result)
 				this.comments = result.data.data.data
 				this.current_page = result.data.current_page
 				this.total = result.data.total
@@ -339,17 +304,10 @@ export default {
 ::v-deep .el-main {
 	padding-top: 0;
 }
-.home{
-	width: $common-container;
-	margin: 0 auto;
-	// background-color: white;
-	.body-center{
-		margin-top: 20px;
-	}
-}
 .home-list{
 	// margin-right: 20px;
-	float:right;
+	// float:right;
+	overflow: hidden;
 	width: 760px;
 	min-height: 100vh;
 	background-color: white;
@@ -446,22 +404,7 @@ export default {
 	.comment-list{
 		margin: 20px;
 		.no_comments{
-			padding-top: 100px;
-			position: relative;
-			text-align: center;
-			color: #bfbfbf;
-			font-size: $uni-font-size-paragraph;
-			&::after{
-				position: absolute;
-				top: 0;
-				left: 50%;
-				transform: translateX(-50%);
-				content: '';
-				display: block;
-				width: 100px;
-				height: 100px;
-				background: url(../../assets/img/comments.gif) no-repeat center center/contain;
-			}
+			@include _no_date()
 		}
 		.comment-item{
 			padding: 20px;

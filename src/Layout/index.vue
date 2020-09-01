@@ -1,4 +1,3 @@
-<!-- 已弃用 -->
 <template>
 	<div class="home-bg">
 		<el-backtop :bottom="100">
@@ -22,17 +21,13 @@
 				
 				<el-container>
 					<el-aside width="200px" >
-						<ranking :isFixed="isFixed"></ranking>
+						<app-left :isFixed="isFixed"></app-left>
 					</el-aside>
 					<el-main>
-						<!-- <list></list> -->
-						<router-view/>
+						<app-main></app-main>
 					</el-main>
 					<el-aside width="200px" >
-						<div >
-							<hot-article :isFixed="isFixed"></hot-article>
-						</div>
-						
+						<app-right :isFixed="isFixed"></app-right>
 					</el-aside>
 				</el-container>
 			</div>
@@ -43,17 +38,15 @@
 
 <script>
 // @ is an alias to /src
-// import List from './components/list.vue'
-import Ranking from '../Code/components/ranking.vue'
-import HotArticle from '../Code/components/hot_article.vue'
 import Utils from '@/kun/utils/util.js'
+import { AppMain,AppLeft,AppRight } from './components'
 
 export default {
-	name: 'Home',
+	name: 'LayOut',
 	components: {
-		// List,
-		Ranking,
-		HotArticle,
+		AppMain,
+		AppLeft,
+		AppRight
 	},
 	data(){
 		return {

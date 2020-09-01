@@ -1,50 +1,82 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home/Home.vue'
+// import CodeHome from '@/views/Code/Home.vue'
+import Layout from '@/Layout'
 
 Vue.use(VueRouter)
 
 const routes = [
 	{
+		redirect: '/home',
 		path: '/',
+	},
+	{
+		path: '/home',
 		name: 'Home',
-		component: Home,
+		component: () => import('@/views/Home/Home.vue'),
+	},
+	// 第一版code首页方案，暂时弃用 含banner
+	// {
+	// 	path: '',
+	// 	name: 'CodeHome',
+	// 	component: CodeHome,
+	// 	children:[
+	// 		{
+	// 			path: '/code/c-home',
+	// 			name: 'List',
+	// 			component: () => import('@/views/Code/components/list.vue')
+	// 		},
+			
+		
+	// 	]
+	// },
+	
+	{
+		path: '/code',
+		name: 'Code',
+		component: Layout,
+		redirect:'/code/c-home',
 		children:[
 			{
-				path: '',
+				path: 'c-home',
 				name: 'List',
-				component: () => import('../views/Home/components/list.vue')
+				component: () => import('@/views/Code/components/list.vue')
+			},
+			{
+				path: 'type-article/:id',
+				name: 'TypeArticle',
+				component: () => import('../views/TypeArticle/TypeArticle.vue')
+			},
+			
+			{
+				path: 'article-detail',
+				name: 'ArticleDetail',
+				component: () => import('../views/ArticleDetail/ArticleDetail.vue')
 			},
 			{
 				path: 'person-change',
 				name: 'ArticleDetail',
 				component: () => import('../views/Personal/PersonalChange.vue')
 			},
-		
-		]
-	},
-	{
-		path: '',
-		name: 'TypeHome',
-		component: () => import('../views/TypeArticle/TypeHome.vue'),
-		children:[
-			{
-				path: 'type-article/:id',
-				name: 'TypeArticle',
-				component: () => import('../views/TypeArticle/TypeArticle.vue')
-			},
 			{
 				path: '/404',
 				name: '404',
 				component: () => import('../views/Error/404.vue')
 			},
-			
 		]
 	},
 	{
-		path: '/article-detail',
-		name: 'ArticleDetail',
-		component: () => import('../views/ArticleDetail/ArticleDetail.vue')
+		path: '/life',
+		name: 'Life',
+		component: Layout,
+		redirect:'/life/l-home',
+		children:[
+			{
+				path: 'l-home',
+				name: 'LifeHome',
+				component: () => import('@/views/Life/LifeHome.vue')
+			},
+		]
 	},
 	{
 		redirect: '/404',

@@ -50,7 +50,8 @@
 			go_to_class(item){
 				let {id} = item
 				this.$router.push({
-					path: `/type-article/${id}`,
+					path: `/code/type-article/${id}`,
+					query: { type: item.typename }
 				})
 			}
 		}
