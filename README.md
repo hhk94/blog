@@ -1,6 +1,10 @@
 # blog_vue
 ## 基于vue开发 - blog第一版
 
+### 0.演示站点
+ - 个人博客地址：[kunic.cn ](http://kunic.cn),欢迎大家来玩~
+
+
 ### 1.相关文件
 
 - [kun-cms-vue github 后台模板](https://github.com/hhk94/kun-cms-vue)

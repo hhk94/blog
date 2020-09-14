@@ -40,7 +40,7 @@ const routes = [
 			{
 				path: 'c-home',
 				name: 'List',
-				component: () => import('@/views/Code/components/list.vue')
+				component: () => import('@/views/Code/list.vue')
 			},
 			{
 				path: 'type-article/:id',

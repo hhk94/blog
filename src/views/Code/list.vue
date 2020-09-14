@@ -1,85 +1,47 @@
 <template>
-	<div class="home-list">
-		<div class="list-item"
-		v-for="item of this.article_list"
-		:key="item.id"
-		
-		>
-			<h1 
-			@click="go_to_detail(item.id)"
-			class="title">{{item.article_title}}</h1>
-			<div class="tag-body clear">
-				<div class="tag-item clear">
-					<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
-					<div class="word">Post:{{item.update_time}}</div>
-				</div>
-				<div class="tag-item clear">
-					<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
-					<div class="word">In: <router-link :to="{ path: '/code/type-article/'+item.belong_article_type.id +'?type='+item.belong_article_type.typename}">{{item.belong_article_type.typename}}</router-link> </div>
-				</div>
-				<div class="tag-item clear">
-					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
-					<div class="word">Comments: <a href="">{{item.has_comments_count}}</a> </div>
-				</div>
-				<div class="tag-item clear">
-					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
-					<div class="word">作者: {{item.belong_user.nick_name}} </div>
+	<div class="code-body">
+		<div class="no_date" v-if="this.article_list.length===0">暂无数据</div>
+		<div class="home-list" v-else>
+			<div class="list-item"
+			v-for="item of this.article_list"
+			:key="item.id"
+			
+			>
+				<h1 
+				@click="go_to_detail(item.id)"
+				class="title">{{item.article_title}}</h1>
+				<div class="tag-body clear">
+					<div class="tag-item clear">
+						<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
+						<div class="word">Post:{{item.update_time}}</div>
+					</div>
+					<div class="tag-item clear">
+						<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
+						<div class="word">In: <router-link :to="{ path: '/code/type-article/'+item.belong_article_type.id +'?type='+item.belong_article_type.typename}">{{item.belong_article_type.typename}}</router-link> </div>
+					</div>
+					<div class="tag-item clear">
+						<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
+						<div class="word">Comments: <a href="">{{item.has_comments_count}}</a> </div>
+					</div>
+					<div class="tag-item clear">
+						<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
+						<div class="word">作者: {{item.belong_user.nick_name}} </div>
+					</div>
 				</div>
 			</div>
-			<!-- <div class="center">
-				<mavon-editor
-				v-model="item.article_content" 
-				:toolbarsFlag="false"
-				:boxShadow="false"
-				:defaultOpen="'preview'"
-				:subfield="false"
-				@change="change" 
-				class="edit"
-				/>
-			</div> -->
-			<!-- <div class="hidden">
-				<div class="hidden-bg"></div>
-				<div class="more clear">
-					<div @click="go_to_detail(item.id)">Read More</div>
-				</div>
-			</div> -->
+			<el-pagination
+			@current-change="handleCurrentChange"
+			class="pag"
+			background
+			layout="prev, pager, next"
+			:current-page="this.current_page"
+			:page-size="this.per_page"
+			:total="this.total">
+			</el-pagination>
 		</div>
-		<!-- <div class="list-item">
-			<h1 class="title">这里是标题</h1>
-			<div class="tag-body clear">
-				<div class="tag-item clear">
-					<div class="logo"><img src="@/assets/img/riqi.png" alt=""></div>
-					<div class="word">Post:2019-06-09</div>
-				</div>
-				<div class="tag-item clear">
-					<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
-					<div class="word">In: <a href="">code</a> </div>
-				</div>
-				<div class="tag-item clear">
-					<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
-					<div class="word">Comments: <a href="">7</a> </div>
-				</div>
-			</div>
-			<div class="center">
-				a关于我们
-			</div>
-			<div class="hidden">
-				<div class="hidden-bg"></div>
-				<div class="more clear">
-					<div >Read More</div>
-				</div>
-			</div>
-		</div> -->
-		<el-pagination
-		@current-change="handleCurrentChange"
-		class="pag"
-		background
-		layout="prev, pager, next"
-		:current-page="this.current_page"
-		:page-size="this.per_page"
-		:total="this.total">
-		</el-pagination>
+		
 	</div>
+	
 </template>
 
 <script>
@@ -100,14 +62,20 @@ export default {
 			article_list:[],
 			total:10,//总数
 			current_page:1,//当前页
-			per_page:10//一页显示数
+			per_page:10,//一页显示数
+			article_belong_id:null
 		}
 	},
 	mounted(){
-		this.article_list_get()
+		
+		this._initt()
 		
 	},
 	methods:{
+		async _initt(){
+			await this.get_article_belong_id()
+			await this.article_list_get()
+		},
 		handleCurrentChange(val){//页码改变
 			this.current_page = val
 			this.article_list_get()
@@ -118,10 +86,28 @@ export default {
 			// console.log(render)
 			this.html = render;
 		},
+		async get_article_belong_id(){
+			let params = {
+				name:this.$store.state.Config.default_type
+			}
+			let result
+			try {
+				this.loading = true
+				result = await Article.article_belong_get(params)
+			} catch (e) {
+				this.loading = false
+				console.log(e)
+			}
+			if(result.data.state==window.g.SUCCESS_STATE){
+				this.loading = false
+				this.article_belong_id = result.data.data.id
+			}
+		},
 		async article_list_get(){
 			let data = {
 				size:this.per_page,
-				page:this.current_page
+				page:this.current_page,
+				article_belong_id:this.article_belong_id
 			}
 			let result
 			try {
@@ -152,6 +138,10 @@ export default {
 .pag{
 	margin: 20px auto;
 	width: fit-content;
+}
+.no_date{
+	margin-top: 50px;
+	@include _no_date()
 }
 .home-list{
 	overflow: hidden;

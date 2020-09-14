@@ -206,6 +206,21 @@ export default class Cms {
 		return groups
 	}
 	
+	/**
+	  * 方法说明 - 获取指定belong——id
+	  * @url /api/v2/cms/article_belong_get
+	  * @param {int} id
+	  * @method get
+	  */
+	static async article_belong_get(params) {
+		const groups =  await _axios({
+			method: 'get',
+			url: 'cms/article_belong_get',
+			params,
+			handleError: true,
+		})
+		return groups
+	}
 	// static async createOneGroup(name, info, permission_ids) {
 	//   const res = await post('cms/admin/group', {
 	//     name,

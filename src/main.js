@@ -30,6 +30,13 @@ NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 
 router.beforeEach((to,from,next) => {
   NProgress.start()
+	if (to.path.indexOf('life')!=-1) {
+	//empty
+	store.dispatch('Config/set_default_type','life')
+	} else {
+	//empty
+	store.dispatch('Config/set_default_type','code')
+	}
   next()
 })
 
