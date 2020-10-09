@@ -76,6 +76,11 @@ const routes = [
 				name: 'LifeHome',
 				component: () => import('@/views/Life/LifeHome.vue')
 			},
+			{
+				path: 'type-article/:id',
+				name: 'TypeArticle',
+				component: () => import('../views/TypeArticle/TypeArticle.vue')
+			},
 		]
 	},
 	{

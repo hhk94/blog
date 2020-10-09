@@ -4,6 +4,7 @@
 		:key="item.id"
 		v-for="item of article_type_list"
 		@click="go_to_class(item)"
+		:type="item.type"
 		>{{item.typename}}</el-tag>
 	</div>
 </template>
@@ -23,8 +24,8 @@
 		},
 		mounted() {
 			this.article_type_list_get()
+			
 		},
-		
 		methods:{
 			async article_type_list_get(){//获取文章分类列表
 				let result 
@@ -38,6 +39,19 @@
 				if(result.data.state==window.g.SUCCESS_STATE){
 					this.loading = false
 					this.article_type_list = result.data.data
+					this.article_type_list.map(item=>{
+						if(item.b_belong_name === 'code'){
+							let obj = {
+								'type':'primary'
+							}
+							Object.assign(item,obj);
+						}else{
+							let obj = {
+								'type':'success'
+							}
+							Object.assign(item,obj);
+						}
+					})
 				}else{
 					this.loading = false
 					this.$notify({
@@ -48,9 +62,10 @@
 				}
 			},
 			go_to_class(item){
-				let {id} = item
+				let {id,b_belong_name} = item
+				// console.log(item)
 				this.$router.push({
-					path: `/code/type-article/${id}`,
+					path: `/${b_belong_name}/type-article/${id}`,
 					query: { type: item.typename }
 				})
 			}

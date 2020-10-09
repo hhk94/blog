@@ -17,7 +17,7 @@
 					</div>
 					<div class="tag-item clear">
 						<div class="logo wjj"><img src="@/assets/img/wjj.png" alt=""></div>
-						<div class="word">In: <router-link :to="{ path: '/code/type-article/'+item.belong_article_type.id +'?type='+item.belong_article_type.typename}">{{item.belong_article_type.typename}}</router-link> </div>
+						<div class="word">In: <router-link :to="{ path: '/'+item.b_belong_name+'/type-article/'+item.belong_article_type.id +'?type='+item.belong_article_type.typename}">{{item.belong_article_type.typename}}</router-link> </div>
 					</div>
 					<div class="tag-item clear">
 						<div class="logo taolun"><img src="@/assets/img/taolun.png" alt=""></div>
