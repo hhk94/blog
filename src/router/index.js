@@ -84,6 +84,19 @@ const routes = [
 		]
 	},
 	{
+		path: '/video',
+		name: 'Video',
+		component: Layout,
+		redirect:'/video/v-home',
+		children:[
+			{
+				path: 'v-home',
+				name: 'VideoHome',
+				component: () => import('@/views/Video/VideoHome.vue')
+			},
+		]
+	},
+	{
 		redirect: '/404',
 		path: '*',
 	}

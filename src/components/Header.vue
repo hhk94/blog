@@ -86,6 +86,11 @@ export default {
 					chinese:'生活',
 					path:'/life'
 				},
+				{
+					name:'Video',
+					chinese:'视频',
+					path:'/video'
+				},
 			],
 			tabs_active:"/",
 			//处理定位切换
