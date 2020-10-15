@@ -97,6 +97,11 @@ export default {
 		margin-bottom: 10px;
 		margin-right: 36px;
 		border-radius: 5px;
+		transition: all 0.3s;
+		&:hover{
+			box-shadow: 0 1px 3px rgba(0,0,0,.02), 0 16px 32px -4px rgba(0,0,0,.17);
+			transform: translateY(-1px);
+		}
 		&:nth-child(3n){
 			margin-right: 0;
 		}
